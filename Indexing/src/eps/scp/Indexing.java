@@ -1,4 +1,5 @@
 package eps.scp;
+import java.lang.Thread;
 
 public class Indexing {
 
@@ -12,13 +13,13 @@ public class Indexing {
             hash = new InvertedIndex(args[0]);
         else
             hash = new InvertedIndex(args[0], Integer.parseInt(args[1]));
-
-        hash.BuildIndex();
-
+        hash.BuildIndex(3);
         if (args.length > 2)
             hash.SaveIndex(args[2]);
+            //hash.SaveIndex("output.txt");
         else
             hash.PrintIndex();
     }
 
 }
+

@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.math.*;
 
 /**
  * Created by Nando on 3/10/19.
@@ -55,113 +56,31 @@ public class InvertedIndex
 
     /* Método para construir el indice invertido, utilizando un HashMap para almacenarlo en memoria */
 
-    public void BuildIndex()
+    public void BuildIndex(int numThreads)
     {
-        FileInputStream is;
+        System.out.print("Funció Build Index \n");
         long offset = -1;
         int car;
         String key="";
-
         try {
-            File file = new File(InputFilePath);
-            is = new FileInputStream(file);
-            // Leer fichero  a indexar carácter a carácter-
-            while((car = is.read())!=-1)
-            {
-                offset++;
-                if (car=='\n' || car=='\r' || car=='\t') {
-                    // Sustituimos los carácteres de \n,\r,\t en la clave por un espacio en blanco.
-                    if (key.length()==KeySize && key.charAt(KeySize-1)!=' ')
-                        key = key.substring(1, KeySize) + ' ';
-                    continue;
-                }
-                if (key.length()<KeySize)
-                    // Si la clave es menor de K, entonces le concatenamos el nuevo carácter leído.
-                    key = key + (char) car;
-                else
-                    // Si la clave es igua a K, entonces eliminaos su primier carácter y le concatenamos el nuevo carácter leído (implementamos una slidding window sobre el fichero a indexar).
-                    key = key.substring(1, KeySize) + (char) car;
+        File file = new File(InputFilePath);
+        int numFiles=(int) Math.ceil(file.length()/numThreads);
+        FileInputStream[] is = new FileInputStream[numThreads];
 
-                if (key.length()==KeySize)
-                    // Si tenemos una clave completa, la añadimos al Hash, junto a su desplazamiento dentro del fichero.
-                    AddKey(key, offset-KeySize+1);
-            }
-            is.close();
+
+        for(int i=0;i<numThreads;i++){
+            is[i] = new FileInputStream(file);
+            is[i].skip(i*numFiles);
+            new Thread(new SubBuildIndex(is[i])).start();
+        }
+            // Leer fichero  a indexar carácter a carácter
 
         } catch (FileNotFoundException fnfE) {
             System.err.println("Error opening Input file.");
-        }  catch (IOException ioE) {
+        }catch (IOException ioE) {
             System.err.println("Error read Input file.");
         }
     }
-
-    /*
-    public void BuildIndex2() {
-        byte[] chunk = new byte[DChunkSize];
-        int chunkLen = 0, k = 0, countFChars=0;
-        long offset = 0;
-
-        try {
-            File file = new File(InputFilePath);
-            is = new FileInputStream(file);
-            k=chunk.length-1;
-            while((chunkLen = ReadChunk(chunk,k))>=KeySize)
-            {
-                String data = new String(chunk).replaceAll("\n", " ").replaceAll("\r", " ").replaceAll("\t", " ");
-                //countFChars = data.length() - data.replaceAll("\n", "").replaceAll("\r", "").replaceAll("\t", "").length();
-                //.replace("\n", "").replace("\r", "");;
-                for (k=0;k<=(chunkLen-(KeySize)); k++)
-                {
-                    if (offset==582399)
-                        System.out.println("Debug");
-                    try {
-                        char firstCharacter = data.charAt(k);
-                        if (firstCharacter != '\n' && firstCharacter != '\r' && firstCharacter != '\t') {
-                            String key = GetKey(data, k);
-                            if (key=="lugar de l")
-                                System.out.println("Debug");
-                            if (key != null)
-                                AddKey(key, offset);
-                        }
-                        offset++;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } catch (FileNotFoundException fnfE) {
-            System.err.println("Error opening Input file.");
-        }
-    }
-*/
-
-    /*
-    private String GetKey(String data, int position)
-    {
-        String cleanData = data.substring(position);
-        cleanData = cleanData.replace("\n", "").replace("\r", "").replace("\t", "");
-        if (cleanData.length()>=KeySize)
-            return (cleanData.substring(0, KeySize));
-        else
-            return null;
-    }
-    */
-
-    /*
-    private int ReadChunk(byte[] chunk, int k){
-        try {
-            System.arraycopy(chunk, k+1, chunk, 0, chunk.length-(k+1));
-            int size = is.read(chunk, chunk.length-(k+1), chunk.length-(chunk.length-(k+1)));
-            if (size>0)
-                return (size+chunk.length-(k+1));
-            else
-                return (0);
-        } catch (IOException e) {
-            System.err.println("Error reading Input file.");
-            return(0);
-        }
-    }
-    */
 
     // Método que añade una k-word y su desplazamiento en el HashMap.
     private void AddKey(String key, long offset){
@@ -282,7 +201,7 @@ public class InvertedIndex
                     System.err.println("Error opening Index file");
                     e.printStackTrace();
                 }
-                //System.out.println("");
+                System.out.println(Hash.toString());
             }
         }
     }
@@ -411,4 +330,52 @@ public class InvertedIndex
         System.out.println("Matching at offset "+offset+" ("+ perMatching*100 + "%): "+new String(matchText));
     }
 
+    public class SubBuildIndex implements Runnable{
+
+        public FileInputStream file;
+
+        //Construvtor para recojer los paràmetros
+        public SubBuildIndex(FileInputStream file){
+            this.file=file;
+        }
+
+        @Override
+        public void run(){
+
+            System.out.print("Aixó és un thread \n");
+            long offset = -1;
+            int car;
+            String key="";
+
+            try {
+                // Leer fichero  a indexar carácter a carácter-
+                while((car = this.file.read())!=-1)
+                {
+                    offset++;
+                    if (car=='\n' || car=='\r' || car=='\t') {
+                        // Sustituimos los carácteres de \n,\r,\t en la clave por un espacio en blanco.
+                        if (key.length()==KeySize && key.charAt(KeySize-1)!=' ')
+                            key = key.substring(1, KeySize) + ' ';
+                        continue;
+                    }
+                    if (key.length()<KeySize)
+                        // Si la clave es menor de K, entonces le concatenamos el nuevo carácter leído.
+                        key = key + (char) car;
+                    else
+                        // Si la clave es igua a K, entonces eliminaos su primier carácter y le concatenamos el nuevo carácter leído (implementamos una slidding window sobre el fichero a indexar).
+                        key = key.substring(1, KeySize) + (char) car;
+
+                    if (key.length()==KeySize)
+                        // Si tenemos una clave completa, la añadimos al Hash, junto a su desplazamiento dentro del fichero.
+                        AddKey(key, offset-KeySize+1);
+                }
+                this.file.close();
+
+            } catch (FileNotFoundException fnfE) {
+                System.err.println("Error opening Input file.");
+            }  catch (IOException ioE) {
+                System.err.println("Error read Input file.");
+            }
+        }
+    }
 }
