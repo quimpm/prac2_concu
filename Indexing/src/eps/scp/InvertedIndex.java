@@ -75,7 +75,7 @@ public class InvertedIndex
         }
 
         for(int i=0;i<restNumFiles;i++){
-            numFiles[i%numThreads]++;
+            numFiles[i]++;
         }
 
         for(int i=0;i<numThreads;i++){
@@ -85,7 +85,7 @@ public class InvertedIndex
             start+=numFiles[i];
         }
             // Leer fichero  a indexar carácter a carácter
-
+        System.out.print(Hash.toString());
         } catch (FileNotFoundException fnfE) {
             System.err.println("Error opening Input file.");
         }catch (IOException ioE) {
@@ -94,8 +94,8 @@ public class InvertedIndex
     }
 
     // Método que añade una k-word y su desplazamiento en el HashMap.
-    private void AddKey(String key, long offset){
-        Hash.put(key, offset);
+    private void AddKey( HashMultimap<String, Long> tmpHash){
+        this.Hash.putAll(tmpHash);
         //System.out.print(offset+"\t-> "+key+" - "+Thread.currentThread().getId()+"\n");
     }
 
@@ -346,6 +346,8 @@ public class InvertedIndex
         public FileInputStream file;
         public int start;
         public int end;
+        private HashMultimap<String, Long> tmpHash = HashMultimap.create();
+
 
         //Construvtor para recojer los paràmetros
         public SubBuildIndex(FileInputStream file, int start, int end){
@@ -357,7 +359,7 @@ public class InvertedIndex
         @Override
         public void run(){
 
-            System.out.print("Aixó és un thread: "+Thread.currentThread().getId()+"\n");
+            System.out.print("Aixó és un thread: "+Thread.currentThread().getId()+" "+(this.end-this.start)+"\n");
             long offset = -1;
             int car;
             String key="";
@@ -384,7 +386,10 @@ public class InvertedIndex
 
                     if (key.length()==KeySize)
                         // Si tenemos una clave completa, la añadimos al Hash, junto a su desplazamiento dentro del fichero.
-                        AddKey(key, offset-KeySize+1);
+                        //AddKey(key, offset-KeySize+1);
+                        tmpHash.put(key, offset);
+
+                    AddKey(tmpHash);
                     index++;
                 }
                 this.file.close();
