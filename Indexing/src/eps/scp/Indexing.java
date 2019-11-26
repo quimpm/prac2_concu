@@ -14,11 +14,11 @@ public class Indexing {
         else
             hash = new InvertedIndex(args[0], Integer.parseInt(args[1]));
         hash.BuildIndex(3);
-        if (args.length > 2)
-            hash.SaveIndex(args[2]);
+        //if (args.length > 2)
+            //hash.SaveIndex(args[2]);
             //hash.SaveIndex("output.txt");
-        else
-            hash.PrintIndex();
+        //else
+            //hash.PrintIndex();
     }
 
 }

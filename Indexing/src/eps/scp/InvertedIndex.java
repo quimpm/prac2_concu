@@ -64,14 +64,25 @@ public class InvertedIndex
         String key="";
         try {
         File file = new File(InputFilePath);
-        int numFiles=(int) Math.ceil(file.length()/numThreads);
+        int numFiles[]= new int[numThreads];
+        int restNumFiles=(int)file.length()%numThreads;
         FileInputStream[] is = new FileInputStream[numThreads];
+        int start = 0;
+        int end = 0;
 
+        for(int i=0;i<numFiles.length;i++){
+            numFiles[i]=(int) Math.floor(file.length()/numThreads);
+        }
+
+        for(int i=0;i<restNumFiles;i++){
+            numFiles[i%numThreads]++;
+        }
 
         for(int i=0;i<numThreads;i++){
+            end+=numFiles[i]-1;
             is[i] = new FileInputStream(file);
-            is[i].skip(i*numFiles);
-            new Thread(new SubBuildIndex(is[i])).start();
+            new Thread(new SubBuildIndex(is[i],start,end)).start();
+            start+=numFiles[i];
         }
             // Leer fichero  a indexar carácter a carácter
 
@@ -85,7 +96,7 @@ public class InvertedIndex
     // Método que añade una k-word y su desplazamiento en el HashMap.
     private void AddKey(String key, long offset){
         Hash.put(key, offset);
-        System.out.print(offset+"\t-> "+key+"\r");
+        //System.out.print(offset+"\t-> "+key+" - "+Thread.currentThread().getId()+"\n");
     }
 
     // Método para imprimir por pantalla el índice invertido.
@@ -333,23 +344,29 @@ public class InvertedIndex
     public class SubBuildIndex implements Runnable{
 
         public FileInputStream file;
+        public int start;
+        public int end;
 
         //Construvtor para recojer los paràmetros
-        public SubBuildIndex(FileInputStream file){
+        public SubBuildIndex(FileInputStream file, int start, int end){
             this.file=file;
+            this.start=start;
+            this.end=end;
         }
 
         @Override
         public void run(){
 
-            System.out.print("Aixó és un thread \n");
+            System.out.print("Aixó és un thread: "+Thread.currentThread().getId()+"\n");
             long offset = -1;
             int car;
             String key="";
+            int index=0;
 
             try {
+                this.file.skip(start);
                 // Leer fichero  a indexar carácter a carácter-
-                while((car = this.file.read())!=-1)
+                while((car = this.file.read())!=-1 && index<(this.end-this.start))
                 {
                     offset++;
                     if (car=='\n' || car=='\r' || car=='\t') {
@@ -368,6 +385,7 @@ public class InvertedIndex
                     if (key.length()==KeySize)
                         // Si tenemos una clave completa, la añadimos al Hash, junto a su desplazamiento dentro del fichero.
                         AddKey(key, offset-KeySize+1);
+                    index++;
                 }
                 this.file.close();
 
