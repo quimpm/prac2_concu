@@ -58,7 +58,7 @@ public class InvertedIndex
     public void BuildIndex(int start, int end)
     {
         FileInputStream is;
-        long offset = -1;
+        long offset = start;
         int car;
         String key="";
 
@@ -68,7 +68,7 @@ public class InvertedIndex
             is.skip(start);
             int index = start;
             // Leer fichero  a indexar carácter a carácter-
-            while((car = is.read())!=-1 && index<end)
+            while((car = is.read())!=-1 && index < end)
             {
                 offset++;
                 if (car=='\n' || car=='\r' || car=='\t') {

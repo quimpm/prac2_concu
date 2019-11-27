@@ -10,7 +10,7 @@ public class Indexing {
     public static void main(String[] args)
     {
         InvertedIndex hash;
-        int threadCharge[] = new int[num_threads];
+        int[] threadCharge = new int[num_threads];
         int start=0;
         int end=0;
 
@@ -25,35 +25,32 @@ public class Indexing {
 
         for(int i = 0; i < num_threads; i++){
             end+=threadCharge[i]-1;
+            System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
             new Thread(new partsBuildIndex(start,end,hash,args)).start();
             start+=threadCharge[i];
             end++;
         }
-
-
     }
 
     public static int[] balanceoCarga(String file_name){
 
         File file = new File(file_name);
-        int threadCharge[] = new int[num_threads];
-
+        int[] threadCharge = new int[num_threads];
+        System.out.println(file.length());
         for(int i = 0;i < num_threads;i++){
-            threadCharge[i]= (int) Math.floor(file.length()/num_threads);
+            threadCharge[i]= (int) Math.floor((float)file.length()/num_threads);
         }
 
         for(int i = 0; i<(int)file.length()%num_threads; i++){
             threadCharge[i]++;
         }
 
-        /*
-        Bucle per comprovar que el balanceo és correcte
-        for(int i = 0;i < num_threads;i++){
-            System.out.print(threadCharge[i]+"\n");
-        }*/
-
         return threadCharge;
 
+        //Bucle per comprovar que el balanceo és correcte
+        /*for(int i = 0;i < num_threads;i++){
+            System.out.print(threadCharge[i]+"\n");
+        }*/
     }
 
     public static class partsBuildIndex implements Runnable{
@@ -79,9 +76,7 @@ public class Indexing {
             else
                 this.hash.PrintIndex();
         }
-
     }
-
 }
 
 
