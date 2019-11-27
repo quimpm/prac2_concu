@@ -73,10 +73,10 @@ public class InvertedIndex
         for(int i=0;i<numFiles.length;i++){
             numFiles[i]=(int) Math.floor(file.length()/numThreads);
         }
-
+        /*System.out.print(restNumFiles);
         for(int i=0;i<restNumFiles;i++){
             numFiles[i]++;
-        }
+        }*/
 
         for(int i=0;i<numThreads;i++){
             end+=numFiles[i]-1;
