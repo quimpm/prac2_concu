@@ -23,13 +23,24 @@ public class Indexing {
 
         threadCharge=balanceoCarga(args[0]);
 
-        for(int i = 0; i < num_threads; i++){
+        new Thread(new partsBuildIndex(0,15,hash,args)).start();
+        new Thread(new partsBuildIndex(16,19,hash,args)).start();
+        new Thread(new partsBuildIndex(20,29,hash,args)).start();
+        new Thread(new partsBuildIndex(30,39,hash,args)).start();
+
+        /*for(int i = 0; i < num_threads; i++){
             end+=threadCharge[i]-1;
             System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
             new Thread(new partsBuildIndex(start,end,hash,args)).start();
             start+=threadCharge[i];
             end++;
-        }
+        }*/
+
+        if (args.length > 2)
+            hash.SaveIndex(args[2]);
+        else
+            hash.PrintIndex();
+
     }
 
     public static int[] balanceoCarga(String file_name){
@@ -71,10 +82,7 @@ public class Indexing {
             /*Print per comprovar que funcionen els fils i que els parametres start i stop són correctes
             System.out.print("Thread: "+Thread.currentThread().getId()+"; Start: "+this.start+"; End: "+this.end+"\n");*/
             this.hash.BuildIndex(start, end);
-            if (this.args.length > 2)
-                this.hash.SaveIndex(args[2]);
-            else
-                this.hash.PrintIndex();
+
         }
     }
 }
