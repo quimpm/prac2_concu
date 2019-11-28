@@ -4,13 +4,14 @@ import java.io.File;
 
 public class Indexing {
 
-    public static int num_threads=3;
+    public static int num_threads=4;
 
 
     public static void main(String[] args)
     {
         InvertedIndex hash;
         int[] threadCharge = new int[num_threads];
+        Thread[] threads_storage = new Thread[num_threads];
         int start=0;
         int end=0;
 
@@ -23,23 +24,31 @@ public class Indexing {
 
         threadCharge=balanceoCarga(args[0]);
 
-        new Thread(new partsBuildIndex(0,15,hash,args)).start();
-        new Thread(new partsBuildIndex(16,19,hash,args)).start();
-        new Thread(new partsBuildIndex(20,29,hash,args)).start();
-        new Thread(new partsBuildIndex(30,39,hash,args)).start();
 
-        /*for(int i = 0; i < num_threads; i++){
+        for(int i = 0; i < num_threads; i++){
             end+=threadCharge[i]-1;
-            System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
-            new Thread(new partsBuildIndex(start,end,hash,args)).start();
+            //System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
+            threads_storage[i] =  new Thread(new partsBuildIndex(start,end,hash,args));
+            threads_storage[i].start();
             start+=threadCharge[i];
             end++;
-        }*/
+        }
 
-        if (args.length > 2)
+
+        try{
+            for(int i = 0; i < num_threads; i++){
+                threads_storage[i].join();
+            }
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        if (args.length > 2) {
             hash.SaveIndex(args[2]);
+        }
         else
             hash.PrintIndex();
+
+
 
     }
 
@@ -47,7 +56,7 @@ public class Indexing {
 
         File file = new File(file_name);
         int[] threadCharge = new int[num_threads];
-        System.out.println(file.length());
+        //System.out.println(file.length());
         for(int i = 0;i < num_threads;i++){
             threadCharge[i]= (int) Math.floor((float)file.length()/num_threads);
         }

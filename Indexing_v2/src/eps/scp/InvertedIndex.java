@@ -66,9 +66,8 @@ public class InvertedIndex
             File file = new File(InputFilePath);
             is = new FileInputStream(file);
             is.skip(start);
-            int index = start;
             // Leer fichero  a indexar carácter a carácter-
-            while((car = is.read())!=-1 && index < end)
+            while((car = is.read())!=-1 && offset < end + KeySize)
             {
                 offset++;
                 if (car=='\n' || car=='\r' || car=='\t') {
@@ -87,7 +86,7 @@ public class InvertedIndex
                 if (key.length()==KeySize)
                     // Si tenemos una clave completa, la añadimos al Hash, junto a su desplazamiento dentro del fichero.
                     AddKey(key, offset-KeySize+1);
-                index++;
+
             }
             is.close();
 
@@ -101,6 +100,7 @@ public class InvertedIndex
     // Método que añade una k-word y su desplazamiento en el HashMap.
     private void AddKey(String key, long offset){
         Hash.put(key, offset);
+        //System.out.println("Afegeix " + key + " a " + offset);
         System.out.print(offset+"\t-> "+key+"\r");
     }
 
@@ -132,8 +132,14 @@ public class InvertedIndex
         // Calculamos el número de ficheros a crear en función del núemro de claves que hay en el hash.
         if (keySet.size()>DIndexMaxNumberOfFiles)
             numberOfFiles = DIndexMaxNumberOfFiles;
-        else
+        else{
             numberOfFiles = keySet.size();
+            //System.out.print(keySet);//TODO: Debug
+            //System.out.print(keySet.size());
+        }
+
+
+
         Iterator keyIterator = keySet.iterator();
         remainingKeys =  keySet.size();
         remainingFiles = numberOfFiles;
