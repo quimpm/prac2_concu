@@ -52,6 +52,14 @@ public class InvertedIndex
         InputFilePath = inputFile;
     }
 
+    public void setHash(HashMultimap<String, Long> hash){
+            this.Hash = hash;
+    }
+    /* Getters */
+    public HashMultimap<String, Long> getHash(){
+        return this.Hash;
+    }
+
 
     /* Método para construir el indice invertido, utilizando un HashMap para almacenarlo en memoria */
 

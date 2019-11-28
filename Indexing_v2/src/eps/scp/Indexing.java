@@ -1,5 +1,7 @@
 package eps.scp;
 
+import com.google.common.collect.HashMultimap;
+
 import java.io.File;
 
 public class Indexing {
@@ -9,32 +11,37 @@ public class Indexing {
 
     public static void main(String[] args)
     {
-        InvertedIndex hash;
+        InvertedIndex final_hash;
         int[] threadCharge = new int[num_threads];
+        InvertedIndex[] hashes = new InvertedIndex[num_threads];
         Thread[] threads_storage = new Thread[num_threads];
         int start=0;
         int end=0;
 
         if (args.length <2 || args.length>4)
             System.err.println("Erro in Parameters. Usage: Indexing <TextFile> [<Key_Size>] [<Index_Directory>]");
-        if (args.length < 2)
-            hash = new InvertedIndex(args[0]);
-        else
-            hash = new InvertedIndex(args[0], Integer.parseInt(args[1]));
+        if (args.length < 2) {
+            //hash = new InvertedIndex(args[0]);
+            for (int i = 0; i < num_threads; i++) hashes[i] = new InvertedIndex(args[0]);
+        }else{
+            //hash = new InvertedIndex(args[0], Integer.parseInt(args[1]));
+            for(int i = 0; i < num_threads; i++) hashes[i] = new InvertedIndex(args[0], Integer.parseInt(args[1]));
+        }
+
 
         threadCharge=balanceoCarga(args[0]);
 
-
+        // Creación de hilos
         for(int i = 0; i < num_threads; i++){
             end+=threadCharge[i]-1;
             //System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
-            threads_storage[i] =  new Thread(new partsBuildIndex(start,end,hash,args));
+            threads_storage[i] =  new Thread(new partsBuildIndex(start,end,hashes[i],args));
             threads_storage[i].start();
             start+=threadCharge[i];
             end++;
         }
 
-
+        // Join de hilos
         try{
             for(int i = 0; i < num_threads; i++){
                 threads_storage[i].join();
@@ -42,11 +49,29 @@ public class Indexing {
         }catch(InterruptedException e){
             e.printStackTrace();
         }
+
+        // Juntar hashes parciales
+        HashMultimap<String, Long> mult_hash = hashes[0].getHash();
+
+        for(int i = 1; i < num_threads; i++){
+            mult_hash.putAll(hashes[i].getHash());
+        }
+        hashes[0].setHash(mult_hash);
+
+        /*HashMultimap<String, Long>[] hashMultimaps;
+        HashMultimap<String, Long> acumHash = hashes[0].getHash();
+        for(int i = 1; i < num_threads ; i++){
+            acumHash.putAll(hashes[i].getHash());
+        }
+
+        final_hash.setHash(acumHash);*/
+
+
         if (args.length > 2) {
-            hash.SaveIndex(args[2]);
+            hashes[0].SaveIndex(args[2]); //TODO: Debug
         }
         else
-            hash.PrintIndex();
+            hashes[0].PrintIndex();
 
 
 
