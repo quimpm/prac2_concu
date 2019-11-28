@@ -8,7 +8,7 @@ public class Query
 
     public static void main(String[] args)
     {
-        InvertedIndex_seq hash;
+        InvertedIndexSeq hash;
         String queryString=null, indexDirectory=null, fileName=null;
 
         if (args.length <2 || args.length>4)
@@ -20,9 +20,9 @@ public class Query
         if (args.length > 2)
             fileName = args[2];
         if (args.length > 3)
-            hash = new InvertedIndex_seq(Integer.parseInt(args[3]));
+            hash = new InvertedIndexSeq(Integer.parseInt(args[3]));
         else
-            hash = new InvertedIndex_seq();
+            hash = new InvertedIndexSeq();
 
         hash.LoadIndex(indexDirectory);
         hash.SetFileName(fileName);
