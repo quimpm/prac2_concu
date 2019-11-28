@@ -6,42 +6,49 @@ import java.io.File;
 
 public class Indexing {
 
-    public static int num_threads=4;
+    private static int num_threads=4; //TODO: Generalitzar
 
+    // UNDER CONSTRUCTIOON vvvvvvvv
+    /*private static InvertedIndex inv_index = new InvertedIndex();
 
+    public Indexing(String[] args){
+
+    }*/
+    // UNDER CONSTRUCTIOON ^^^^^^
     public static void main(String[] args)
     {
-        InvertedIndex final_hash;
-        int[] threadCharge = new int[num_threads];
-        InvertedIndex[] hashes = new InvertedIndex[num_threads];
+        /* Inicialización de variables */
+        int[] threadCharge;
+        InvertedIndex[] inverted_hashes = new InvertedIndex[num_threads];
         Thread[] threads_storage = new Thread[num_threads];
         int start=0;
         int end=0;
 
+        /* Control argumentos */
         if (args.length <2 || args.length>4)
             System.err.println("Erro in Parameters. Usage: Indexing <TextFile> [<Key_Size>] [<Index_Directory>]");
         if (args.length < 2) {
             //hash = new InvertedIndex(args[0]);
-            for (int i = 0; i < num_threads; i++) hashes[i] = new InvertedIndex(args[0]);
+            for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndex(args[0]);
         }else{
             //hash = new InvertedIndex(args[0], Integer.parseInt(args[1]));
-            for(int i = 0; i < num_threads; i++) hashes[i] = new InvertedIndex(args[0], Integer.parseInt(args[1]));
+            for(int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndex(args[0], Integer.parseInt(args[1]));
         }
 
 
-        threadCharge=balanceoCarga(args[0]);
 
-        // Creación de hilos
+        /* Balanceo de carga y creación de hilos */
+        threadCharge=balanceoCarga(args[0]);
         for(int i = 0; i < num_threads; i++){
             end+=threadCharge[i]-1;
             //System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
-            threads_storage[i] =  new Thread(new partsBuildIndex(start,end,hashes[i],args));
+            threads_storage[i] =  new Thread(new partsBuildIndex(start,end,inverted_hashes[i],args));
             threads_storage[i].start();
             start+=threadCharge[i];
             end++;
         }
 
-        // Join de hilos
+        /* Join de hilos */
         try{
             for(int i = 0; i < num_threads; i++){
                 threads_storage[i].join();
@@ -50,34 +57,22 @@ public class Indexing {
             e.printStackTrace();
         }
 
-        // Juntar hashes parciales
-        HashMultimap<String, Long> mult_hash = hashes[0].getHash();
+        /* Juntar hashes parciales */
+        HashMultimap<String, Long> mult_hash = inverted_hashes[0].getHash();
+        for(int i = 1; i < num_threads; i++) mult_hash.putAll(inverted_hashes[i].getHash());
+        inverted_hashes[0].setHash(mult_hash);
 
-        for(int i = 1; i < num_threads; i++){
-            mult_hash.putAll(hashes[i].getHash());
-        }
-        hashes[0].setHash(mult_hash);
-
-        /*HashMultimap<String, Long>[] hashMultimaps;
-        HashMultimap<String, Long> acumHash = hashes[0].getHash();
-        for(int i = 1; i < num_threads ; i++){
-            acumHash.putAll(hashes[i].getHash());
-        }
-
-        final_hash.setHash(acumHash);*/
+        /* Guardar resultado */
 
 
         if (args.length > 2) {
-            hashes[0].SaveIndex(args[2]); //TODO: Debug
+            inverted_hashes[0].SaveIndex(args[2]);
         }
         else
-            hashes[0].PrintIndex();
-
-
-
+            inverted_hashes[0].PrintIndex();
     }
 
-    public static int[] balanceoCarga(String file_name){
+    private static int[] balanceoCarga(String file_name){
 
         File file = new File(file_name);
         int[] threadCharge = new int[num_threads];
@@ -89,10 +84,8 @@ public class Indexing {
         for(int i = 0; i<(int)file.length()%num_threads; i++){
             threadCharge[i]++;
         }
-
         return threadCharge;
-
-        //Bucle per comprovar que el balanceo és correcte
+        //Bucle per comprovar que el balanceo és correcte //TODO:Treure
         /*for(int i = 0;i < num_threads;i++){
             System.out.print(threadCharge[i]+"\n");
         }*/
@@ -113,7 +106,7 @@ public class Indexing {
         }
 
         public void run(){
-            /*Print per comprovar que funcionen els fils i que els parametres start i stop són correctes
+            /*Print per comprovar que funcionen els fils i que els parametres start i stop són correctes //TODO:Treure
             System.out.print("Thread: "+Thread.currentThread().getId()+"; Start: "+this.start+"; End: "+this.end+"\n");*/
             this.hash.BuildIndex(start, end);
 
