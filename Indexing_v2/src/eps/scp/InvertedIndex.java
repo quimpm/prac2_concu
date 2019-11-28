@@ -52,6 +52,7 @@ public class InvertedIndex
         InputFilePath = inputFile;
     }
 
+    /* Setters */
     public void setHash(HashMultimap<String, Long> hash){
             this.Hash = hash;
     }

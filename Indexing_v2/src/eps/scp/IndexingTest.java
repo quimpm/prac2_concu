@@ -10,16 +10,16 @@ class IndexingTest {
         testBuildIndexExample1();
     }
 
-    public void testBuildIndexExample1(){
+    private void testBuildIndexExample1(){
         String[] args = {"test/example1.txt", "10"};
 
         //Indexacion concurrente
-        Indexing index_conc = new Indexing();
-        index_conc.main(args);
+        Indexing index_conc = new Indexing(args);
+        System.out.println("HOTAL"+  index_conc.get_InvertedIndex().getHash());
 
         //Indexación secuencial
-        Indexing_seq index_seq = new Indexing_seq();
-        //System.out.print();
+        Indexing_seq index_seq = new Indexing_seq(args);
+        System.out.println("HOTAL SEQ " + index_seq.get_InvertedIndex_seq().getHash());
 
 
         assertEquals(1, 1);

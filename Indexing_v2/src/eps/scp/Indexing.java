@@ -9,11 +9,16 @@ public class Indexing {
     private static int num_threads=4; //TODO: Generalitzar
 
     // UNDER CONSTRUCTIOON vvvvvvvv
-    /*private static InvertedIndex inv_index = new InvertedIndex();
+    private static InvertedIndex inv_index = new InvertedIndex();
 
     public Indexing(String[] args){
+        main(args);
+    }
 
-    }*/
+    public InvertedIndex get_InvertedIndex(){
+        return inv_index;
+    }
+
     // UNDER CONSTRUCTIOON ^^^^^^
     public static void main(String[] args)
     {
@@ -64,12 +69,15 @@ public class Indexing {
 
         /* Guardar resultado */
 
-
         if (args.length > 2) {
             inverted_hashes[0].SaveIndex(args[2]);
         }
         else
             inverted_hashes[0].PrintIndex();
+
+        /* Actualizar método para el testing */
+        inv_index.setHash(inverted_hashes[0].getHash());
+
     }
 
     private static int[] balanceoCarga(String file_name){

@@ -1,6 +1,18 @@
 package eps.scp;
 
 public class Indexing_seq {
+    // UNDER CONSTRUCTIOON vvvvvvvv
+    private static InvertedIndex_seq inv_index = new InvertedIndex_seq();
+
+    public Indexing_seq(String[] args){
+        main(args);
+    }
+
+    public InvertedIndex_seq get_InvertedIndex_seq(){
+        return inv_index;
+    }
+
+    // UNDER CONSTRUCTIOON ^^^^^^
 
     public static void main(String[] args)
     {
@@ -19,6 +31,8 @@ public class Indexing_seq {
             hash.SaveIndex(args[2]);
         else
             hash.PrintIndex();
+
+        inv_index.setHash(hash.getHash());
     }
 
 }
