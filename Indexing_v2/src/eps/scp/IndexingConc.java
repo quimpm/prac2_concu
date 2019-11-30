@@ -3,6 +3,7 @@ package eps.scp;
 import com.google.common.collect.HashMultimap;
 
 import java.io.File;
+import java.security.Key;
 
 public class IndexingConc {
 
@@ -39,7 +40,9 @@ public class IndexingConc {
 
 
         /* Balanceo de carga y creación de hilos */
-        threadCharge=balanceoCarga(args[0]);
+        //threadCharge=balanceoCarga(args[0]); //TODO: Descomentat funciona
+        threadCharge = balanceoCarga_v2(args[0]);
+
         for(int i = 0; i < num_threads; i++){
             end+=threadCharge[i]-1;
             //System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
@@ -74,6 +77,26 @@ public class IndexingConc {
         /* Actualizar método para el testing */
         inv_index.setHash(inverted_hashes[0].getHash());
 
+    }
+
+    private static int[] balanceoCarga_v2(String file_name){
+
+        File file = new File(file_name);
+        int[] threadCharge = new int[num_threads];
+        float real_end = file.length() - 10 + 1; //TODO: KeySize hardcodejat a 10, s'ha de generalitzar
+        //System.out.println(file.length());
+        for(int i = 0;i < num_threads;i++){
+            threadCharge[i]= (int) Math.floor((float)real_end/num_threads);
+        }
+
+        for(int i = 0; i<(int)real_end%num_threads; i++){
+            threadCharge[i]++;
+        }
+        return threadCharge;
+        //Bucle per comprovar que el balanceo és correcte //TODO:Treure
+        /*for(int i = 0;i < num_threads;i++){
+            System.out.print(threadCharge[i]+"\n");A----------------
+        }*/
     }
 
     private static int[] balanceoCarga(String file_name){

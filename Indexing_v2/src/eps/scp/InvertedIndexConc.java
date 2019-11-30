@@ -87,7 +87,8 @@ public class InvertedIndexConc
                     // Sustituimos los carácteres de \n,\r,\t en la clave por un espacio en blanco.
                     /*if (key.length()==KeySize && key.charAt(KeySize-1)!=' ')
                         key = key.substring(1, KeySize) + ' ';*/
-                    key = key.substring(1, key.length()) + ' ';
+                    if(!key.equals("") && key.charAt(key.length()-1) != ' ') key = key.substring(1) + ' ';
+                    //if(key.length() == KeySize) AddKey(key, offset-KeySize+1);
                     continue;
                 }
                 if (key.length()<KeySize)
@@ -105,7 +106,7 @@ public class InvertedIndexConc
             is.close();
 
         } catch (FileNotFoundException fnfE) {
-            System.err.println("Error opening Input file.");
+            System.err.println("Error opening Input file. 1");
         }  catch (IOException ioE) {
             System.err.println("Error read Input file.");
         }
@@ -114,7 +115,7 @@ public class InvertedIndexConc
     // Método que añade una k-word y su desplazamiento en el HashMap.
     private void AddKey(String key, long offset){
         Hash.put(key, offset);
-        //System.out.println(Thread.currentThread().getId() + " Afegeix " + key + " a " + offset); //TODO: PER DEBUG, TREURE DESPRES
+        System.out.println(Thread.currentThread().getId() + " Afegeix \"" + key + "\" -> " + offset); //TODO: PER DEBUG, TREURE DESPRES
         //System.out.print(offset+"\t-> "+key+"\r");
     }
 
@@ -263,7 +264,7 @@ public class InvertedIndexConc
             // Open original input file for random access.
             randomInputFile = new RandomAccessFile(InputFilePath, "r");
         } catch (FileNotFoundException e) {
-            System.err.println("Error opening input file");
+            System.err.println("Error opening input file 2");
             e.printStackTrace();
         }
         int maxFreq = (queryString.length()-KeySize)+1;
@@ -281,7 +282,7 @@ public class InvertedIndexConc
         try {
             randomInputFile.close();
         } catch (IOException e) {
-            System.err.println("Error opening input file");
+            System.err.println("Error opening input file 3");
             e.printStackTrace();
         }
     }
