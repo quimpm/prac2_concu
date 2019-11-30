@@ -202,14 +202,15 @@ public class InvertedIndexConc
     }
 
     // Método para cargar en memoria (HashMap) el índice invertido desde su copia en disco.
-    public void LoadIndex(String inputDirectory)
+    public void LoadIndex(File[] listOfFiles)
     {
-        File folder = new File(inputDirectory);
-        File[] listOfFiles = folder.listFiles();
 
+        //System.out.print(listOfFiles.toString());
         // Recorremos todos los ficheros del directorio de Indice y los procesamos.
         for (File file : listOfFiles) {
+            //System.out.print(file.getName()+"\n");
             if (file.isFile()) {
+                //System.out.print(file.getName()+"\n");
                 //System.out.println("Processing file " + folder.getPath() + "/" + file.getName()+" -> ");
                 try {
                     FileReader input = new FileReader(file);
