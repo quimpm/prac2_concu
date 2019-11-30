@@ -68,7 +68,7 @@ class IndexingTest {
     public void testBuildIndexQuijote(){
         String[] args = {"test/pg2000.txt", "10", "Output/quijote"};
         IndexingConc index_conc = new IndexingConc(args);
-        Indexing_seq index_seq = new Indexing_seq(args);
+        IndexingSeq index_seq = new IndexingSeq(args);
 
         assertEquals(index_conc.get_InvertedIndex().getHash(), index_seq.get_InvertedIndex_seq().getHash());
     }*/

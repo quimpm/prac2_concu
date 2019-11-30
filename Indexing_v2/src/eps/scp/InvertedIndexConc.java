@@ -67,22 +67,27 @@ public class InvertedIndexConc
     public void BuildIndex(int start, int end)
     {
         FileInputStream is;
-        long offset = start-1;
+        long offset = start - 1;
         int car;
         String key="";
+        //System.out.println("THREAD: Start: "+start+" End: "+end ); //TODO: TREURE
 
         try {
             File file = new File(InputFilePath);
             is = new FileInputStream(file);
+
             is.skip(start);
+            //if(start != 0) is.skip(start-1); //TODO: UNDER CONSTRUCTION
             // Leer fichero  a indexar carácter a carácter-
-            while((car = is.read())!=-1 && offset < end + KeySize)
+            while((car = is.read())!=-1 && offset <= end + KeySize )
             {
                 offset++;
+                //System.out.println( Thread.currentThread().getId() +" processant posició " + offset);
                 if (car=='\n' || car=='\r' || car=='\t') {
                     // Sustituimos los carácteres de \n,\r,\t en la clave por un espacio en blanco.
-                    if (key.length()==KeySize && key.charAt(KeySize-1)!=' ')
-                        key = key.substring(1, KeySize) + ' ';
+                    /*if (key.length()==KeySize && key.charAt(KeySize-1)!=' ')
+                        key = key.substring(1, KeySize) + ' ';*/
+                    key = key.substring(1, key.length()) + ' ';
                     continue;
                 }
                 if (key.length()<KeySize)
@@ -109,7 +114,7 @@ public class InvertedIndexConc
     // Método que añade una k-word y su desplazamiento en el HashMap.
     private void AddKey(String key, long offset){
         Hash.put(key, offset);
-        //System.out.println("Afegeix " + key + " a " + offset);
+        //System.out.println(Thread.currentThread().getId() + " Afegeix " + key + " a " + offset); //TODO: PER DEBUG, TREURE DESPRES
         //System.out.print(offset+"\t-> "+key+"\r");
     }
 

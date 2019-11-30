@@ -6,9 +6,8 @@ import java.io.File;
 
 public class IndexingConc {
 
-    private static int num_threads=4; //TODO: Generalitzar
+    private static int num_threads=2; //TODO: Generalitzar
 
-    // UNDER CONSTRUCTIOON vvvvvvvv
     private static InvertedIndexConc inv_index = new InvertedIndexConc();
 
     public IndexingConc(String[] args){
@@ -19,7 +18,6 @@ public class IndexingConc {
         return inv_index;
     }
 
-    // UNDER CONSTRUCTIOON ^^^^^^
     public static void main(String[] args)
     {
         /* Inicialización de variables */
@@ -33,10 +31,8 @@ public class IndexingConc {
         if (args.length <2 || args.length>4)
             System.err.println("Erro in Parameters. Usage: Indexing <TextFile> [<Key_Size>] [<Index_Directory>]");
         if (args.length < 2) {
-            //hash = new InvertedIndex(args[0]);
             for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(args[0]);
         }else{
-            //hash = new InvertedIndex(args[0], Integer.parseInt(args[1]));
             for(int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(args[0], Integer.parseInt(args[1]));
         }
 
@@ -95,7 +91,7 @@ public class IndexingConc {
         return threadCharge;
         //Bucle per comprovar que el balanceo és correcte //TODO:Treure
         /*for(int i = 0;i < num_threads;i++){
-            System.out.print(threadCharge[i]+"\n");
+            System.out.print(threadCharge[i]+"\n");A----------------
         }*/
     }
 
@@ -114,8 +110,8 @@ public class IndexingConc {
         }
 
         public void run(){
-            /*Print per comprovar que funcionen els fils i que els parametres start i stop són correctes //TODO:Treure
-            System.out.print("Thread: "+Thread.currentThread().getId()+"; Start: "+this.start+"; End: "+this.end+"\n");*/
+            /*Print per comprovar que funcionen els fils i que els parametres start i stop són correctes //TODO:Treure*/
+            //System.out.print("Thread: "+Thread.currentThread().getId()+"; Start: "+this.start+"; End: "+this.end+"\n");
             this.hash.BuildIndex(start, end);
 
         }
