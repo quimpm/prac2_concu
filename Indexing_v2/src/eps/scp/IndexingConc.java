@@ -3,11 +3,11 @@ package eps.scp;
 import com.google.common.collect.HashMultimap;
 
 import java.io.File;
-import java.security.Key;
 
 public class IndexingConc {
 
-    private static int num_threads=2; //TODO: Generalitzar
+    /* Argument methods*/
+    private static int num_threads; //TODO: Generalitzar
 
     private static InvertedIndexConc inv_index = new InvertedIndexConc();
 
@@ -19,34 +19,47 @@ public class IndexingConc {
         return inv_index;
     }
 
+
     public static void main(String[] args)
     {
         /* Inicialización de variables */
         int[] threadCharge;
-        InvertedIndexConc[] inverted_hashes = new InvertedIndexConc[num_threads];
-        Thread[] threads_storage = new Thread[num_threads];
+        InvertedIndexConc[] inverted_hashes;
+        Thread[] threads_storage;
         int start=0;
         int end=0;
 
-        /* Control argumentos */
-        if (args.length <2 || args.length>4)
-            System.err.println("Erro in Parameters. Usage: Indexing <TextFile> [<Key_Size>] [<Index_Directory>]");
-        if (args.length < 2) {
-            for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(args[0]);
-        }else{
-            for(int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(args[0], Integer.parseInt(args[1]));
-        }
+        System.out.println("Num args: " + args.length);
+        for(String str:args) System.out.println("Arg: " + str);
 
+
+        /* Control argumentos */
+        String text_file;
+        if (args.length <2 || args.length >4) {
+            System.err.println("Error in Parameters. Usage: Indexing <TextFile> <Thread_number>[<Key_Size>] [<Index_Directory>]");
+            throw new IllegalArgumentException();
+        }
+        text_file = args[0];
+        num_threads = Integer.parseInt( args[1] );
+        inverted_hashes = new InvertedIndexConc[num_threads];
+        threads_storage = new Thread[num_threads];
+        if (args.length == 2){ /* Text file and thread number */
+            System.out.println("Num threads: " + num_threads );
+            for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(text_file);
+        }else{ /* Text file, thread number and key size (and possibly index directory) */
+            int key_size = Integer.parseInt(args[2]);
+            for(int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(text_file, key_size);
+        }
 
 
         /* Balanceo de carga y creación de hilos */
         //threadCharge=balanceoCarga(args[0]); //TODO: Descomentat funciona
-        threadCharge = balanceoCarga_v2(args[0]);
+        threadCharge = balanceoCarga_v2(text_file);
 
         for(int i = 0; i < num_threads; i++){
             end+=threadCharge[i]-1;
             //System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
-            threads_storage[i] =  new Thread(new partsBuildIndex(start,end,inverted_hashes[i],args));
+            threads_storage[i] =  new Thread(new partsBuildIndex(start,end,inverted_hashes[i]));
             threads_storage[i].start();
             start+=threadCharge[i];
             end++;
@@ -68,15 +81,14 @@ public class IndexingConc {
 
         /* Guardar resultado */
 
-        if (args.length > 2) {
-            inverted_hashes[0].SaveIndex(args[2]);
+        if (args.length > 3) {
+            inverted_hashes[0].SaveIndex(args[3]);
         }
         else
             inverted_hashes[0].PrintIndex();
 
         /* Actualizar método para el testing */
         inv_index.setHash(inverted_hashes[0].getHash());
-
     }
 
     private static int[] balanceoCarga_v2(String file_name){
@@ -123,20 +135,17 @@ public class IndexingConc {
         public int start;
         public int end;
         InvertedIndexConc hash;
-        String[] args;
 
-        public partsBuildIndex(int start, int end, InvertedIndexConc hash, String[] args){
+        public partsBuildIndex(int start, int end, InvertedIndexConc hash){
             this.start=start;
             this.end=end;
             this.hash=hash;
-            this.args=args;
         }
 
         public void run(){
             /*Print per comprovar que funcionen els fils i que els parametres start i stop són correctes //TODO:Treure*/
             //System.out.print("Thread: "+Thread.currentThread().getId()+"; Start: "+this.start+"; End: "+this.end+"\n");
             this.hash.BuildIndex(start, end);
-
         }
     }
 }
