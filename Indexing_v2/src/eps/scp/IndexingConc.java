@@ -7,7 +7,7 @@ import java.io.File;
 public class IndexingConc {
 
     /* Argument methods*/
-    private static int num_threads; //TODO: Generalitzar
+    private static int num_threads;
 
     private static InvertedIndexConc inv_index = new InvertedIndexConc();
 
@@ -38,6 +38,7 @@ public class IndexingConc {
         if (args.length <2 || args.length >4) {
             System.err.println("Error in Parameters. Usage: Indexing <TextFile> <Thread_number>[<Key_Size>] [<Index_Directory>]");
             throw new IllegalArgumentException();
+            System.exit(0);
         }
         text_file = args[1];
         num_threads = Integer.parseInt( args[0] );
