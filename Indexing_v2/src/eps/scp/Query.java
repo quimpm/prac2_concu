@@ -15,27 +15,26 @@ public class Query
     public static void main(String[] args)
     {
         //TODO: Generalitzar, descomentar per agafar dels arguments
-        int num_threads=3;
-
         String queryString=null, indexDirectory=null, fileName=null;
         int start=0,end=0,index;
         File folder;
         int[] threadsCharge;
-        Thread[] threads_storage = new Thread[num_threads];
-        InvertedIndexConc[] inverted_hashes = new InvertedIndexConc[num_threads];
         File[] threadListOfFiles;
 
 
-        if (args.length <2 || args.length>4)
-            System.err.println("Erro in Parameters. Usage: Query <String> <IndexDirectory> <filename> [<Key_Size>]");
-        if (args.length > 0)
-            queryString = args[0];
-        if (args.length > 1)
-            indexDirectory = args[1];
-        if (args.length > 2)
-            fileName = args[2];
-        if (args.length > 3)
-            for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(Integer.parseInt(args[3]));
+        if (args.length <4 || args.length>5)
+            System.err.println("Error in Parameters. Usage: Query <String> <IndexDirectory> <filename> [<Key_Size>]");
+
+        int num_threads = Integer.parseInt( args[0] );
+        queryString = args[1];
+        indexDirectory = args[2];
+        fileName = args[3];
+
+        Thread[] threads_storage = new Thread[num_threads];
+        InvertedIndexConc[] inverted_hashes = new InvertedIndexConc[num_threads];
+
+        if (args.length == 5)
+            for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(Integer.parseInt(args[4]));
         else
             for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc();
         /* Agafar nombre de threads dels arguments
@@ -61,7 +60,7 @@ public class Query
                 index++;
             }
 
-            System.out.println("Thread " + i + "; Carga:" + threadsCharge[i] + "; Start " + start + "; End " + end);
+            //System.out.println("Thread " + i + "; Carga:" + threadsCharge[i] + "; Start " + start + "; End " + end);
 
             //Creem thread
             threads_storage[i] =  new Thread(new partsLoadIndex(threadListOfFiles, inverted_hashes[i]));

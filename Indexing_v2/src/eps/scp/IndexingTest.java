@@ -19,7 +19,7 @@ class IndexingTest {
 
     @Test
     public void testBuildIndexExample1(){
-        String[] argsConc = {"test/example1.txt", "4", "10", "Output/example1"};
+        String[] argsConc = {"4", "test/example1.txt", "10", "Output/example1"};
         String[] argsSeq = {"test/example1.txt", "10", "Output/example1"};
 
         //Indexacion concurrente
@@ -33,7 +33,7 @@ class IndexingTest {
 
     @Test
     public void testBuildIndexExample2(){
-        String[] argsConc = {"test/example2.txt", "4", "10", "Output/example2"};
+        String[] argsConc = {"4", "test/example2.txt",  "10", "Output/example2"};
         String[] argsSeq = {"test/example2.txt", "10", "Output/example2"};
         IndexingConc indexConc = new IndexingConc(argsConc);
         IndexingSeq indexSeq = new IndexingSeq(argsSeq);
@@ -43,7 +43,7 @@ class IndexingTest {
 
     @Test
     public void testBuildIndexExample3(){
-        String[] argsConc = {"test/example3.txt", "4", "10", "Output/example3"};
+        String[] argsConc = {"4", "test/example3.txt",  "10", "Output/example3"};
         String[] argsSeq = {"test/example3.txt", "10", "Output/example3"};
         IndexingConc indexConc = new IndexingConc(argsConc);
         IndexingSeq indexSeq = new IndexingSeq(argsSeq);
@@ -53,7 +53,7 @@ class IndexingTest {
 
     @Test
     public void testBuildIndexExample4(){
-        String[] argsConc = {"test/example4.txt", "4", "10", "Output/example4"};
+        String[] argsConc = {"4", "test/example4.txt",  "10", "Output/example4"};
         String[] argsSeq = {"test/example4.txt", "10", "Output/example4"};
         IndexingConc indexConc = new IndexingConc(argsConc);
         IndexingSeq indexSeq = new IndexingSeq(argsSeq);
@@ -75,7 +75,7 @@ class IndexingTest {
     @Test
     public void testArgumentsOneFiveArgument(){
         String[] args_conc_1 = {"test/example3.txt"};
-        String[] args_conc_2 = {"test/example3.txt", "4", "10", "Output/example3", "This should not happen"};
+        String[] args_conc_2 = {"4", "test/example3.txt",  "10", "Output/example3", "This should not happen"};
         try {
             new IndexingConc(args_conc_1);
             fail("Exception not thrown");
@@ -88,9 +88,9 @@ class IndexingTest {
 
     @Test
     public void testArgumentsTwoThreeFourArguments(){
-        String[] argsConc1 = {"test/example3.txt", "4"};
-        String[] argsConc2 = {"test/example3.txt", "4", "10"};
-        String[] argsConc3 = {"test/example3.txt", "4", "10", "Output/example3"};
+        String[] argsConc1 = {"4", "test/example3.txt"};
+        String[] argsConc2 = {"4", "test/example3.txt", "10"};
+        String[] argsConc3 = {"4", "test/example3.txt", "10", "Output/example3"};
 
         try {
             new IndexingConc(argsConc1);

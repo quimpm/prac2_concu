@@ -152,9 +152,56 @@ public class InvertedIndexConc
             //System.out.print(keySet);//TODO: Debug
             //System.out.print(keySet.size());
         }
+        Iterator keyIterator = keySet.iterator();
+        remainingKeys =  keySet.size();
+        remainingFiles = numberOfFiles;
+        // Bucle para recorrer los ficheros de indice a crear.
+        for (int f=1;f<=numberOfFiles;f++)
+        {
+            try {
+                File KeyFile = new File(outputDirectory + DIndexFilePrefix + String.format("%03d", f));
+                FileWriter fw = new FileWriter(KeyFile);
+                BufferedWriter bw = new BufferedWriter(fw);
+                // Calculamos el número de claves a guardar en este fichero.
+                keysByFile =  remainingKeys / remainingFiles;
+                remainingKeys -= keysByFile;
+                // Recorremos las claves correspondientes a este fichero.
+                while (keyIterator.hasNext() && keysByFile>0) {
+                    key = (String) keyIterator.next();
+                    SaveIndexKey(key,bw);  // Salvamos la clave al fichero.
+                    keysByFile--;
+                }
+                bw.close(); // Cerramos el fichero.
+                remainingFiles--;
+            } catch (IOException e) {
+                System.err.println("Error opening Index file " + outputDirectory + "/IndexFile" + f);
+                e.printStackTrace();
+                System.exit(-1);
+            }
+        }
+    }
+
+    public void SaveIndexConc(String outputDirectory, int threadNum, InvertedIndexConc[] invertedHashes)
+    {
+        int numberOfFiles, remainingFiles;
+        long remainingKeys=0, keysByFile=0;
+        String key="";
+        Charset utf8 = StandardCharsets.UTF_8;
+        Set<String> keySet = Hash.keySet();
+
+        /* UNDER CONSTRUCTION */
+
+        /* UNDER CONSTRUCTION */
 
 
-
+        // Calculamos el número de ficheros a crear en función del núemro de claves que hay en el hash.
+        if (keySet.size()>DIndexMaxNumberOfFiles)
+            numberOfFiles = DIndexMaxNumberOfFiles;
+        else{
+            numberOfFiles = keySet.size();
+            //System.out.print(keySet);//TODO: Debug
+            //System.out.print(keySet.size());
+        }
         Iterator keyIterator = keySet.iterator();
         remainingKeys =  keySet.size();
         remainingFiles = numberOfFiles;
@@ -250,7 +297,7 @@ public class InvertedIndexConc
         String queryResult=null;
         Map<Long, Integer> offsetsFreq, sorted_offsetsFreq;
 
-        System.out.println ("Searching for query: "+queryString);
+        //System.out.println ("Searching for query: "+queryString);
 
         // Split Query in keys & Obtain keys offsets
         offsetsFreq = GetQueryOffsets(queryString);

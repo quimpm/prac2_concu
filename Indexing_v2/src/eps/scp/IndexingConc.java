@@ -29,8 +29,8 @@ public class IndexingConc {
         int start=0;
         int end=0;
 
-        System.out.println("Num args: " + args.length);
-        for(String str:args) System.out.println("Arg: " + str);
+        //System.out.println("Num args: " + args.length);
+        //for(String str:args) System.out.println("Arg: " + str);
 
 
         /* Control argumentos */
@@ -39,12 +39,12 @@ public class IndexingConc {
             System.err.println("Error in Parameters. Usage: Indexing <TextFile> <Thread_number>[<Key_Size>] [<Index_Directory>]");
             throw new IllegalArgumentException();
         }
-        text_file = args[0];
-        num_threads = Integer.parseInt( args[1] );
+        text_file = args[1];
+        num_threads = Integer.parseInt( args[0] );
         inverted_hashes = new InvertedIndexConc[num_threads];
         threads_storage = new Thread[num_threads];
         if (args.length == 2){ /* Text file and thread number */
-            System.out.println("Num threads: " + num_threads );
+            //System.out.println("Num threads: " + num_threads );
             for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(text_file);
         }else{ /* Text file, thread number and key size (and possibly index directory) */
             int key_size = Integer.parseInt(args[2]);
@@ -74,14 +74,29 @@ public class IndexingConc {
             e.printStackTrace();
         }
 
-        /* Juntar hashes parciales */
+        /* Juntar hashes parciales */ //TODO: Descomentar
         HashMultimap<String, Long> mult_hash = inverted_hashes[0].getHash();
         for(int i = 1; i < num_threads; i++) mult_hash.putAll(inverted_hashes[i].getHash());
         inverted_hashes[0].setHash(mult_hash);
 
         /* Guardar resultado */
 
-        if (args.length > 3) {
+        /* UNDER CONSTRUCTION */
+        /*if (args.length > 3) {
+            for(int i = 1; i < num_threads; i++){
+                inverted_hashes[i].SaveIndex(args[3]);
+            }
+        }
+        else
+            for(int i = 1; i < num_threads; i++){
+                inverted_hashes[1].PrintIndex();
+            }*/
+
+
+        /* UNDER CONSTRUCTION */
+
+
+        if (args.length > 3) { //TODO: Descomentar
             inverted_hashes[0].SaveIndex(args[3]);
         }
         else

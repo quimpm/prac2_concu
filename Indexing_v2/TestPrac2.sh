@@ -25,6 +25,6 @@ cat Output/example3/IndexFile* | cut -f2 | tr ',' ' '  | wc -w
 cat Output/quijote/IndexFile* | cut -f2 | tr ',' ' '  | wc -w
 
 echo "Query Quijote Secuencial"
-time java -cp out/artifacts/Indexing_jar/IndexingConc.jar eps.scp.Query 1 "En un lugar de la Mancha" Output/quijote/ test/pg2000.txt 10
+time java -cp out/artifacts/Indexing_jar/Indexing.jar eps.scp.Query 1 "En un lugar de la Mancha" Output/quijote/ test/pg2000.txt 10
 echo "Query Quijote Concurrente"
-time java -cp out/artifacts/Indexing_jar/IndexingConc.jar eps.scp.Query 8 "En un lugar de la Mancha" Output/quijote/ test/pg2000.txt 10
+time java -cp out/artifacts/Indexing_jar/Indexing.jar eps.scp.Query 8 "En un lugar de la Mancha" Output/quijote/ test/pg2000.txt 10
