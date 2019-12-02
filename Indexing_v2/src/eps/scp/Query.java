@@ -12,6 +12,16 @@ import static java.lang.System.exit;
 public class Query
 {
 
+    private static InvertedIndexConc inv_index = new InvertedIndexConc();
+
+    public Query(String[] args){
+        main(args);
+    }
+
+    public InvertedIndexConc get_InvertedIndex(){
+        return inv_index;
+    }
+
     public static void main(String[] args)
     {
         //TODO: Generalitzar, descomentar per agafar dels arguments
@@ -19,7 +29,7 @@ public class Query
         int start=0,end=0,index;
         File folder;
         int[] threadsCharge;
-        File[] threadListOfFiles;
+        Boolean debug=true;
 
 
         if (args.length <4 || args.length>5)
@@ -37,9 +47,7 @@ public class Query
             for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(Integer.parseInt(args[4]));
         else
             for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc();
-        /* Agafar nombre de threads dels arguments
-        if(args.length > 4)
-            num_threads=Integer.parseInt(args[4]);*/
+
 
         //Agafem la llista de fitxers continguts dincs de la carpeta folder
         folder= new File(indexDirectory);
@@ -48,7 +56,40 @@ public class Query
         //Fem el balanceo de carga per cada thread
         threadsCharge=balanceoCarga(listOfFiles.length, num_threads);
 
+        if(debug) System.err.println("Load");
         //Creació fils
+        threads_storage=startThreads(num_threads, threadsCharge, listOfFiles, inverted_hashes);
+
+
+        /* Join de fils */
+        try{
+            for(int i = 0; i < num_threads; i++){
+                threads_storage[i].join();
+            }
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        if(debug) System.err.println("Fi load");
+
+        if(debug) System.err.println("PutAll");
+        /* Juntar hashes parciales */
+        HashMultimap<String, Long> mult_hash = inverted_hashes[0].getHash();
+        for(int i = 1; i < num_threads; i++) mult_hash.putAll(inverted_hashes[i].getHash());
+        inv_index.setHash(mult_hash);
+        inverted_hashes[0].setHash(mult_hash);
+        if(debug) System.err.println("Fi PutAll");
+
+        inverted_hashes[0].SetFileName(fileName);
+
+        //inverted_hashes[0].PrintIndex();
+        inverted_hashes[0].Query(queryString);
+    }
+
+    public static Thread[] startThreads(int num_threads, int[] threadsCharge, File[] listOfFiles, InvertedIndexConc[] inverted_hashes){
+        Thread[] threads_storage = new Thread[num_threads];
+        int index, end=0, start=0;
+        File[] threadListOfFiles;
+
         for(int i = 0; i < num_threads; i++){
             index=0;
             end += threadsCharge[i] - 1;
@@ -70,25 +111,8 @@ public class Query
             end++;
         }
 
-        /* Join de fils */
-        try{
-            for(int i = 0; i < num_threads; i++){
-                threads_storage[i].join();
-            }
-        }catch(InterruptedException e){
-            e.printStackTrace();
-        }
-
-        /* Juntar hashes parciales */
-        HashMultimap<String, Long> mult_hash = inverted_hashes[0].getHash();
-        for(int i = 1; i < num_threads; i++) mult_hash.putAll(inverted_hashes[i].getHash());
-        inverted_hashes[0].setHash(mult_hash);
-        inverted_hashes[0].SetFileName(fileName);
-
-        //inverted_hashes[0].PrintIndex();
-        inverted_hashes[0].Query(queryString);
+        return threads_storage;
     }
-
     public static int[] balanceoCarga(int num_files, int num_threads){
 
         int[] threadCharge = new int[num_threads];

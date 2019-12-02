@@ -11,12 +11,18 @@
       <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc$partsBuildIndex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc$partsBuildIndex.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eps/scp/InvertedIndexConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/InvertedIndexConc.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query$partsLoadIndex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query$partsLoadIndex.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eps/scp/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/Query.java" afterDir="false" />
+>>>>>>> c25543153d8bd8dc7199b58f698e5f556ac82edb
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +34,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -39,11 +46,23 @@
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="create.test.in.the.same.root" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/eps/scp" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="eps.scp" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -57,7 +76,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.IndexingTest">
+  <component name="RunManager" selected="Application.Query_Example3">
     <configuration default="true" type="tests" factoryName="Unittests">
       <module name="Indexing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -137,7 +156,7 @@
     <configuration name="Query_Example3" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="eps.scp.Query" />
       <module name="Indexing" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;345678902456789&quot; Output/example3 test/example3.txt 10" />
+      <option name="PROGRAM_PARAMETERS" value="4 &quot;345678902456789&quot; Output/example3 test/example3.txt 10" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -145,7 +164,7 @@
     <configuration name="Query_Quijote" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="eps.scp.Query" />
       <module name="Indexing" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;En un lugar de la Mancha&quot; Output/quijote/ test/pg2000.txt 10" />
+      <option name="PROGRAM_PARAMETERS" value="4 &quot;En un lugar de la Mancha&quot; Output/quijote/ test/pg2000.txt 10" />
       <RunnerSettings RunnerId="Debug with VisualVM">
         <option name="visualVMId" value="135946220987113" />
       </RunnerSettings>
@@ -171,6 +190,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="eps.scp" />
       <option name="MAIN_CLASS_NAME" value="eps.scp.IndexingTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QueryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Indexing" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="eps.scp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="eps.scp" />
+      <option name="MAIN_CLASS_NAME" value="eps.scp.QueryTest" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" />
@@ -241,9 +277,11 @@
       <item itemvalue="Application.Indexing_quijote" />
       <item itemvalue="Application.Indexing_example2" />
       <item itemvalue="JUnit.IndexingTest" />
+      <item itemvalue="JUnit.QueryTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.QueryTest" />
         <item itemvalue="JUnit.IndexingTest" />
       </list>
     </recent_temporary>
