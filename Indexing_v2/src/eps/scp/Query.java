@@ -9,12 +9,12 @@ import static java.lang.System.exit;
 /**
  * Created by Nando on 8/10/19.
  */
-public class QueryConc
+public class Query
 {
 
     private static InvertedIndexConc inv_index = new InvertedIndexConc();
 
-    public QueryConc(String[] args){
+    public Query(String[] args){
         main(args);
     }
 
