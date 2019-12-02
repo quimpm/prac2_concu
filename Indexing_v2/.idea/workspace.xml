@@ -7,19 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7a0cf95-e2b8-424c-b312-1b106d6fd188" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/eps/scp/QueryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc$partsBuildIndex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc$partsBuildIndex.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query$partsLoadIndex.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QuerySeq.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QuerySeq.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eps/scp/Query.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_seq/eps/scp/QuerySeq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src_seq/eps/scp/QuerySeq.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QueryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QueryTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eps/scp/QueryConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/QueryConc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eps/scp/QueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/QueryTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -161,7 +153,7 @@
     <configuration name="Query_Quijote" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="eps.scp.QueryConc" />
       <module name="Indexing" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;En un lugar de la Mancha&quot; Output/quijote/ test/pg2000.txt 10" />
+      <option name="PROGRAM_PARAMETERS" value="4 &quot;En un lugar de la Mancha&quot; Output/quijote/ test/pg2000.txt 10" />
       <RunnerSettings RunnerId="Debug with VisualVM">
         <option name="visualVMId" value="135946220987113" />
       </RunnerSettings>
