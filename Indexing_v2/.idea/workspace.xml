@@ -11,18 +11,12 @@
       <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" afterDir="false" />
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc$partsBuildIndex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc$partsBuildIndex.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/IndexingConc.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/InvertedIndexConc.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/eps/scp/InvertedIndexConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/InvertedIndexConc.java" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query$partsLoadIndex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query$partsLoadIndex.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eps/scp/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/Query.java" afterDir="false" />
->>>>>>> c25543153d8bd8dc7199b58f698e5f556ac82edb
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
