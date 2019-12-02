@@ -45,11 +45,6 @@ public class IndexingConc {
         if (args.length <2 || args.length >4) {
             System.err.println("Error in Parameters. Usage: Indexing <TextFile> <Thread_number>[<Key_Size>] [<Index_Directory>]");
             throw new IllegalArgumentException();
-<<<<<<< HEAD
-            //System.exit(1);
-=======
-            //System.exit(0);
->>>>>>> c25543153d8bd8dc7199b58f698e5f556ac82edb
         }
         String text_file = args[1];
         numThreads = Integer.parseInt( args[0] );
