@@ -101,7 +101,6 @@ public class InvertedIndexConc
                 if (key.length()==KeySize)
                     // Si tenemos una clave completa, la añadimos al Hash, junto a su desplazamiento dentro del fichero.
                     AddKey(key, offset-KeySize+1);
-
             }
             is.close();
 
@@ -181,18 +180,13 @@ public class InvertedIndexConc
         }
     }
 
-    public void SaveIndexConc(String outputDirectory, int threadNum, InvertedIndexConc[] invertedHashes)
+    public void SaveIndexConc(String outputDirectory, int numThreads)
     {
         int numberOfFiles, remainingFiles;
         long remainingKeys=0, keysByFile=0;
         String key="";
         Charset utf8 = StandardCharsets.UTF_8;
         Set<String> keySet = Hash.keySet();
-
-        /* UNDER CONSTRUCTION */
-
-        /* UNDER CONSTRUCTION */
-
 
         // Calculamos el número de ficheros a crear en función del núemro de claves que hay en el hash.
         if (keySet.size()>DIndexMaxNumberOfFiles)
