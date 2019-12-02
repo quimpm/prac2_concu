@@ -29,7 +29,7 @@ public class Query
         int start=0,end=0,index;
         File folder;
         int[] threadsCharge;
-
+        Boolean debug=true;
 
 
         if (args.length <4 || args.length>5)
@@ -56,6 +56,7 @@ public class Query
         //Fem el balanceo de carga per cada thread
         threadsCharge=balanceoCarga(listOfFiles.length, num_threads);
 
+        if(debug) System.err.println("Load");
         //Creació fils
         threads_storage=startThreads(num_threads, threadsCharge, listOfFiles, inverted_hashes);
 
@@ -68,12 +69,15 @@ public class Query
         }catch(InterruptedException e){
             e.printStackTrace();
         }
+        if(debug) System.err.println("Fi load");
 
+        if(debug) System.err.println("PutAll");
         /* Juntar hashes parciales */
         HashMultimap<String, Long> mult_hash = inverted_hashes[0].getHash();
         for(int i = 1; i < num_threads; i++) mult_hash.putAll(inverted_hashes[i].getHash());
         inv_index.setHash(mult_hash);
         inverted_hashes[0].setHash(mult_hash);
+        if(debug) System.err.println("Fi PutAll");
 
         inverted_hashes[0].SetFileName(fileName);
 

@@ -9,11 +9,9 @@
     <list default="true" id="b7a0cf95-e2b8-424c-b312-1b106d6fd188" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Indexing_jar/Indexing.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QueryConc$partsLoadIndex.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QueryConc.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QueryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/QueryTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eps/scp/QueryConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/Query.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/eps/scp/QueryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/QueryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query$partsLoadIndex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query$partsLoadIndex.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Indexing/eps/scp/Query.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eps/scp/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/Query.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
