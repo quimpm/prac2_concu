@@ -5,6 +5,15 @@ package eps.scp;
  */
 public class QuerySeq
 {
+    private static InvertedIndexSeq inv_index = new InvertedIndexSeq();
+
+    public QuerySeq(String[] args){
+        main(args);
+    }
+
+    public InvertedIndexSeq get_InvertedIndex_seq(){
+        return inv_index;
+    }
 
     public static void main(String[] args)
     {
@@ -28,6 +37,8 @@ public class QuerySeq
         hash.SetFileName(fileName);
         //hash.PrintIndex();
         hash.Query(queryString);
+
+        inv_index.setHash(hash.getHash());
     }
 
 }

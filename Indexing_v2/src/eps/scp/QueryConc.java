@@ -9,8 +9,18 @@ import static java.lang.System.exit;
 /**
  * Created by Nando on 8/10/19.
  */
-public class Query
+public class QueryConc
 {
+
+    private static InvertedIndexConc inv_index = new InvertedIndexConc();
+
+    public QueryConc(String[] args){
+        main(args);
+    }
+
+    public InvertedIndexConc get_InvertedIndex(){
+        return inv_index;
+    }
 
     public static void main(String[] args)
     {
@@ -37,9 +47,7 @@ public class Query
             for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc(Integer.parseInt(args[4]));
         else
             for (int i = 0; i < num_threads; i++) inverted_hashes[i] = new InvertedIndexConc();
-        /* Agafar nombre de threads dels arguments
-        if(args.length > 4)
-            num_threads=Integer.parseInt(args[4]);*/
+
 
         //Agafem la llista de fitxers continguts dincs de la carpeta folder
         folder= new File(indexDirectory);
@@ -82,6 +90,7 @@ public class Query
         /* Juntar hashes parciales */
         HashMultimap<String, Long> mult_hash = inverted_hashes[0].getHash();
         for(int i = 1; i < num_threads; i++) mult_hash.putAll(inverted_hashes[i].getHash());
+        inv_index.setHash(mult_hash);
         inverted_hashes[0].setHash(mult_hash);
         inverted_hashes[0].SetFileName(fileName);
 
