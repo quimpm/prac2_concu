@@ -111,36 +111,21 @@ public class IndexingConc {
         if(debug.get()) System.err.println("Fi juntar hashos parcials");
 
 
-        numThreads = Integer.parseInt( args[0] );//TODO ALERTA
 
         /* Guardar resultado */
-        if(debug.get()) System.err.println("Guardar resultats");
-        /* UNDER CONSTRUCTION */
+        // Save concurrente
+        /*if(debug.get()) System.err.println("Guardar resultats");
         int numberOfFiles, remainingFiles;
         Set<String> keySet = inverted_hashes[0].getHash().keySet();
 
-        // Calculamos el número de ficheros a crear en función del núemro de claves que hay en el hash.
-        // Número máximio de ficheros para salvar el índice invertido.
-        if(debug.get()) System.err.println("Calcular numero de ficheros que toca");
-        int DIndexMaxNumberOfFiles = 5;
+
+        /* if(debug.get()) System.err.println("Calcular numero de ficheros que toca");
+        int DIndexMaxNumberOfFiles = 1000;
         if (keySet.size()> DIndexMaxNumberOfFiles)
             numberOfFiles = DIndexMaxNumberOfFiles;
         else{
             numberOfFiles = keySet.size();
-            //System.out.print(keySet);//TODO: Debug
-            //System.out.print(keySet.size());
         }
-        /*System.err.println("NumberOfFiles: " + numberOfFiles);
-        System.err.println("KeySet size: " + keySet.size());
-        System.err.println("vvvvv Key set vvvvv");
-        System.err.println(Arrays.toString(keySet.toArray()));
-        String arraySet = Arrays.toString(keySet.toArray());
-        String[] arraySetString = keySet.toArray(new String[keySet.size()]);
-        System.err.println(arraySet);
-        for(String elem : arraySetString){
-            System.err.println(elem);
-        }*/
-        //System.err.println("Set original: " + keySet);
         if(debug.get()) System.err.println("Inicio guardado");
         int[] balanceFicheros = balanceoFicheros(numberOfFiles);
         String[] setString;
@@ -174,8 +159,14 @@ public class IndexingConc {
            }
         }
         else inverted_hashes[0].PrintIndex();
-
+        */
         /* Actualizar método para el testing */
+        if (args.length > 3) {
+            inverted_hashes[0].SaveIndex(args[3]);
+        }else{
+            inverted_hashes[0].PrintIndex();
+            }
+
         if(debug.get()) System.err.println("Fi guardar resultats");
 
         inv_index.setHash(inverted_hashes[0].getHash());

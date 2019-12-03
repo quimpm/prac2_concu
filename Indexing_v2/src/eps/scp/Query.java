@@ -29,7 +29,7 @@ public class Query
         int start=0,end=0,index;
         File folder;
         int[] threadsCharge;
-        Boolean debug=true;
+        Boolean debug=false;
 
 
         if (args.length <4 || args.length>5)
@@ -51,10 +51,10 @@ public class Query
 
         //Agafem la llista de fitxers continguts dincs de la carpeta folder
         folder= new File(indexDirectory);
-        File[] listOfFiles = folder.listFiles();
+         File[] listOfFiles = folder.listFiles();
 
         //Fem el balanceo de carga per cada thread
-        threadsCharge=balanceoCarga(listOfFiles.length, num_threads);
+        threadsCharge=balanceoCarga(listOfFiles.length, num_threads );
 
         if(debug) System.err.println("Load");
         //Creació fils

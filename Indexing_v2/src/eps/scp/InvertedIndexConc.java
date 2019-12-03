@@ -78,7 +78,6 @@ public class InvertedIndexConc
             is = new FileInputStream(file);
 
             is.skip(start);
-            //if(start != 0) is.skip(start-1); //TODO: UNDER CONSTRUCTION
             // Leer fichero  a indexar carácter a carácter-
             while((car = is.read())!=-1 && offset <= end + KeySize )
             {
