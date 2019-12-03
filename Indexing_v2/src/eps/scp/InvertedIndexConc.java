@@ -3,6 +3,7 @@ package eps.scp;
 import com.google.common.collect.HashMultimap;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.swing.*;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -180,27 +181,24 @@ public class InvertedIndexConc
         }
     }
 
-    public void SaveIndexConc(String outputDirectory, int numThreads)
+    public void SaveIndexConc(String outputDirectory, int lowerBoundFile, int upperBoundFile, Set<String> keySubset)
     {
         int numberOfFiles, remainingFiles;
         long remainingKeys=0, keysByFile=0;
         String key="";
         Charset utf8 = StandardCharsets.UTF_8;
-        Set<String> keySet = Hash.keySet();
 
         // Calculamos el número de ficheros a crear en función del núemro de claves que hay en el hash.
-        if (keySet.size()>DIndexMaxNumberOfFiles)
-            numberOfFiles = DIndexMaxNumberOfFiles;
-        else{
-            numberOfFiles = keySet.size();
-            //System.out.print(keySet);//TODO: Debug
-            //System.out.print(keySet.size());
-        }
-        Iterator keyIterator = keySet.iterator();
-        remainingKeys =  keySet.size();
+        numberOfFiles = upperBoundFile - lowerBoundFile + 1;
+        //System.err.println("numberOfFiles " + numberOfFiles + " = upperBound " + upperBoundFile +
+                //" - lowerBound " + lowerBoundFile);
+        Iterator keyIterator = keySubset.iterator();
+        remainingKeys =  keySubset.size();
         remainingFiles = numberOfFiles;
         // Bucle para recorrer los ficheros de indice a crear.
-        for (int f=1;f<=numberOfFiles;f++)
+        //System.err.println(Thread.currentThread().getId() + " mentres " + (lowerBoundFile+1)+ " sigui menorigual que "
+                //+ numberOfFiles + " lower: " + lowerBoundFile+" upper: " + upperBoundFile);
+        for (int f=lowerBoundFile+1;f<=numberOfFiles+lowerBoundFile;f++)
         {
             try {
                 File KeyFile = new File(outputDirectory + DIndexFilePrefix + String.format("%03d", f));
@@ -213,6 +211,7 @@ public class InvertedIndexConc
                 while (keyIterator.hasNext() && keysByFile>0) {
                     key = (String) keyIterator.next();
                     SaveIndexKey(key,bw);  // Salvamos la clave al fichero.
+                    //System.err.println(Thread.currentThread().getId() + " guarda " + key);
                     keysByFile--;
                 }
                 bw.close(); // Cerramos el fichero.
