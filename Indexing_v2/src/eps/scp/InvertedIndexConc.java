@@ -20,7 +20,6 @@ public class InvertedIndexConc
     private final String DIndexFilePrefix = "/IndexFile";   // Prefijo de los ficheros de Índice Invertido.
     private final float DMinimunMatchingPercentage = 0.80f;  // Porcentaje mínimo de matching entre el texto original y la consulta (80%)
     private final int DPaddingMatchText = 20;   // Al mostrar el texto original que se corresponde con la consulta se incrementa en 20 carácteres
-    //private final int DChunkSize = 100;
 
     // Members
     private String InputFilePath;       // Contiene la ruta del fichero a Indexar.
@@ -71,7 +70,6 @@ public class InvertedIndexConc
         long offset = start - 1;
         int car;
         String key="";
-        //System.out.println("THREAD: Start: "+start+" End: "+end ); //TODO: TREURE
 
         try {
             File file = new File(InputFilePath);
@@ -82,13 +80,8 @@ public class InvertedIndexConc
             while((car = is.read())!=-1 && offset <= end + KeySize )
             {
                 offset++;
-                //System.out.println( Thread.currentThread().getId() +" processant posició " + offset);
                 if (car=='\n' || car=='\r' || car=='\t') {
-                    // Sustituimos los carácteres de \n,\r,\t en la clave por un espacio en blanco.
-                    /*if (key.length()==KeySize && key.charAt(KeySize-1)!=' ')
-                        key = key.substring(1, KeySize) + ' ';*/
                     if(!key.equals("") && key.charAt(key.length()-1) != ' ') key = key.substring(1) + ' ';
-                    //if(key.length() == KeySize) AddKey(key, offset-KeySize+1);
                     continue;
                 }
                 if (key.length()<KeySize)
@@ -188,14 +181,9 @@ public class InvertedIndexConc
 
         // Calculamos el número de ficheros a crear en función del núemro de claves que hay en el hash.
         numberOfFiles = upperBoundFile - lowerBoundFile + 1;
-        //System.err.println("numberOfFiles " + numberOfFiles + " = upperBound " + upperBoundFile +
-                //" - lowerBound " + lowerBoundFile);
         Iterator keyIterator = keySubset.iterator();
         remainingKeys =  keySubset.size();
         remainingFiles = numberOfFiles;
-        // Bucle para recorrer los ficheros de indice a crear.
-        //System.err.println(Thread.currentThread().getId() + " mentres " + (lowerBoundFile+1)+ " sigui menorigual que "
-                //+ numberOfFiles + " lower: " + lowerBoundFile+" upper: " + upperBoundFile);
         for (int f=lowerBoundFile+1;f<=numberOfFiles+lowerBoundFile;f++)
         {
             try {
@@ -209,7 +197,6 @@ public class InvertedIndexConc
                 while (keyIterator.hasNext() && keysByFile > 0) {
                     key = (String) keyIterator.next();
                     SaveIndexKey(key,bw);  // Salvamos la clave al fichero.
-                    //System.err.println(Thread.currentThread().getId() + " guarda " + key);
                     keysByFile--;
                 }
                 bw.close(); // Cerramos el fichero.
@@ -244,13 +231,9 @@ public class InvertedIndexConc
     public void LoadIndex(File[] listOfFiles)
     {
 
-        //System.out.print(listOfFiles.toString());
         // Recorremos todos los ficheros del directorio de Indice y los procesamos.
         for (File file : listOfFiles) {
-            //System.out.print(file.getName()+"\n");
             if (file.isFile()) {
-                //System.out.print(file.getName()+"\n");
-                //System.out.println("Processing file " + folder.getPath() + "/" + file.getName()+" -> ");
                 try {
                     FileReader input = new FileReader(file);
                     BufferedReader bufRead = new BufferedReader(input);
@@ -288,18 +271,11 @@ public class InvertedIndexConc
         String queryResult=null;
         Map<Long, Integer> offsetsFreq, sorted_offsetsFreq;
 
-        //System.out.println ("Searching for query: "+queryString);
-
-        // Split Query in keys & Obtain keys offsets
         offsetsFreq = GetQueryOffsets(queryString);
-
         // Sort offsets by Frequency in descending order
         sorted_offsetsFreq = SortOffsetsFreq(offsetsFreq);
         //PrintOffsetsFreq(sorted_offsetsFreq);
-
-        // Show results (offsets>Threshold)
         try {
-            // Open original input file for random access.
             randomInputFile = new RandomAccessFile(InputFilePath, "r");
         } catch (FileNotFoundException e) {
             System.err.println("Error opening input file 2");

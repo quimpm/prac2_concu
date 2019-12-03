@@ -207,9 +207,6 @@ class IndexingTest {
                 while ((line = input2.readLine()) != null) {
                     sb2.append(line);
                 }
-                //System.err.println(sb1.toString());
-                //System.err.println(sb2.toString() + "\n");
-
                 if(!sb1.toString().equals(sb2.toString())) {
                     System.err.println("Expected: " + sb1.toString() + " Found: "+sb2.toString()
                             + " on file" + tmp1Listing[i] + " " + tmp2Listing[i]);

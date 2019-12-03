@@ -1,7 +1,6 @@
 package eps.scp;
 
 public class IndexingSeq {
-    // UNDER CONSTRUCTIOON vvvvvvvv
     private static InvertedIndexSeq inv_index = new InvertedIndexSeq();
 
     public IndexingSeq(String[] args){
@@ -11,8 +10,6 @@ public class IndexingSeq {
     public InvertedIndexSeq get_InvertedIndex_seq(){
         return inv_index;
     }
-
-    // UNDER CONSTRUCTIOON ^^^^^^
 
     public static void main(String[] args)
     {

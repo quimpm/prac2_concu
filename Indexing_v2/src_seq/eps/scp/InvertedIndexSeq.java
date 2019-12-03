@@ -109,8 +109,6 @@ public class InvertedIndexSeq
     // Método que añade una k-word y su desplazamiento en el HashMap.
     private void AddKey(String key, long offset){
         Hash.put(key, offset);
-        //System.out.println("Afegeix \"" + key + "\" -> " + offset); //TODO: PER DEBUG, TREURE DESPRES
-        //System.out.print(offset+"\t-> "+key+"\r");
     }
 
     // Método para imprimir por pantalla el índice invertido.
@@ -226,7 +224,6 @@ public class InvertedIndexSeq
                     System.err.println("Error opening Index file");
                     e.printStackTrace();
                 }
-                //System.out.println("");
             }
         }
     }

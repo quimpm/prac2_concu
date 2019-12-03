@@ -1,16 +1,8 @@
 package eps.scp;
 
-import com.google.common.collect.ArrayTable;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.CharSetUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -43,9 +35,6 @@ public class IndexingConc {
         int key_size = 10; //Default number
         if(debug.get()) System.err.println("Fi inicialització");
 
-        //System.out.println("Num args: " + args.length);
-        //for(String str:args) System.out.println("Arg: " + str);
-
         /* Control argumentos */
         if(debug.get()) System.err.println("Control arguments");
         if (args.length <2 || args.length >4) {
@@ -57,7 +46,6 @@ public class IndexingConc {
         inverted_hashes = new InvertedIndexConc[numThreads];
         threads_storage = new Thread[numThreads];
         if (args.length == 2){ /* Text file and thread number */
-            //System.out.println("Num threads: " + num_threads );
             for (int i = 0; i < numThreads; i++) inverted_hashes[i] = new InvertedIndexConc(text_file);
         }else{ /* Text file, thread number and key size (and possibly index directory) */
             key_size = Integer.parseInt(args[2]);
@@ -72,11 +60,11 @@ public class IndexingConc {
         threadCharge = balanceoCarga(text_file, key_size);
         if(debug.get()) System.err.println("Fi balanceig carrega");
 
-        if(debug.get()) System.err.println("Creació threads");
+
         /* Creación threads */
+        if(debug.get()) System.err.println("Creació threads");
         for(int i = 0; i < numThreads; i++){
             end+=threadCharge[i]-1;
-            //System.out.println("Thread " + i + "\n" + "Start " + start + "\n" + "End " + end );
             threads_storage[i] =  new Thread(new partsBuildIndex(start,end,inverted_hashes[i]));
             threads_storage[i].start();
             start+=threadCharge[i];
@@ -98,7 +86,7 @@ public class IndexingConc {
         if(debug.get()) System.err.println("Fi juntar fils");
 
 
-        /* Juntar hashes parciales */ //TODO: Descomentar
+        /* Juntar hashes parciales */
         if(debug.get()) System.err.println("Juntar hashos parcials");
         HashMultimap<String, Long> mult_hash = inverted_hashes[0].getHash();
         for(int i = 1; i < numThreads; i++){
@@ -111,7 +99,6 @@ public class IndexingConc {
 
 
 
-        /* Guardar resultado */
         // Save concurrente
         /*if(debug.get()) System.err.println("Guardar resultats");
         int numberOfFiles, remainingFiles;
@@ -159,15 +146,16 @@ public class IndexingConc {
         }
         else inverted_hashes[0].PrintIndex();
         */
-        /* Actualizar método para el testing */
+
+        /* Guardar resultado */
         if (args.length > 3) {
             inverted_hashes[0].SaveIndex(args[3]);
         }else{
             inverted_hashes[0].PrintIndex();
             }
-
         if(debug.get()) System.err.println("Fi guardar resultats");
 
+        /* Actualizar método para el testing */
         inv_index.setHash(inverted_hashes[0].getHash());
     }
     private static int[] balanceoFicheros(int num_ficheros){
@@ -180,9 +168,6 @@ public class IndexingConc {
         for(int i = 0; i<(int)num_ficheros% numThreads; i++){
             threadCharge[i]++;
         }
-        /*for(int i = 0;i < numThreads;i++){
-            System.err.print(threadCharge[i]+"\n");
-        }*/
         return threadCharge;
     }
 
@@ -190,8 +175,7 @@ public class IndexingConc {
 
         File file = new File(file_name);
         int[] threadCharge = new int[numThreads];
-        float real_end = file.length() - key_size + 1; //TODO: KeySize hardcodejat a 10, s'ha de generalitzar
-        //System.out.println(file.length());
+        float real_end = file.length() - key_size + 1;
         for(int i = 0; i < numThreads; i++){
             threadCharge[i]= (int) Math.floor((float)real_end/ numThreads);
         }
@@ -200,10 +184,6 @@ public class IndexingConc {
             threadCharge[i]++;
         }
         return threadCharge;
-        //Bucle per comprovar que el balanceo és correcte //TODO:Treure
-        /*for(int i = 0;i < num_threads;i++){
-            System.out.print(threadCharge[i]+"\n");A----------------
-        }*/
     }
 
     public static class partsSaveIndex implements Runnable{
@@ -238,8 +218,6 @@ public class IndexingConc {
         }
 
         public void run(){
-            /*Print per comprovar que funcionen els fils i que els parametres start i stop són correctes //TODO:Treure*/
-            //System.out.print("Thread: "+Thread.currentThread().getId()+"; Start: "+this.start+"; End: "+this.end+"\n");
             this.inverted.BuildIndex(start, end);
         }
     }

@@ -6,7 +6,17 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7a0cf95-e2b8-424c-b312-1b106d6fd188" name="Default" comment="" />
+    <list default="true" id="b7a0cf95-e2b8-424c-b312-1b106d6fd188" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/IndexingConc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/eps/scp/InvertedIndexConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/eps/scp/InvertedIndexConc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../documentació/docu_prac1.aux" beforeDir="false" afterPath="$PROJECT_DIR$/../documentació/docu_prac1.aux" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../documentació/docu_prac1.log" beforeDir="false" afterPath="$PROJECT_DIR$/../documentació/docu_prac1.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../documentació/docu_prac1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../documentació/docu_prac1.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../documentació/docu_prac1.synctex.gz" beforeDir="false" afterPath="$PROJECT_DIR$/../documentació/docu_prac1.synctex.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../documentació/docu_prac1.tex" beforeDir="false" afterPath="$PROJECT_DIR$/../documentació/docu_prac1.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../documentació/docu_prac1.toc" beforeDir="false" afterPath="$PROJECT_DIR$/../documentació/docu_prac1.toc" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -101,8 +101,6 @@ public class Query
                 index++;
             }
 
-            //System.out.println("Thread " + i + "; Carga:" + threadsCharge[i] + "; Start " + start + "; End " + end);
-
             //Creem thread
             threads_storage[i] =  new Thread(new partsLoadIndex(threadListOfFiles, inverted_hashes[i]));
             threads_storage[i].start();
@@ -116,7 +114,6 @@ public class Query
     public static int[] balanceoCarga(int num_files, int num_threads){
 
         int[] threadCharge = new int[num_threads];
-        //System.out.println(file.length());
         for(int i = 0;i < num_threads;i++){
             threadCharge[i]= (int) Math.floor(num_files/num_threads);
         }

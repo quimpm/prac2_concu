@@ -68,13 +68,19 @@
 
 \section{Introducción}
 
-En este documento se compara la eficiencia en tiempo que supone ejecutar Indexing i Query de forma concurrente respecto de forma secuencial. También se muestra a continuación la diferencia en tiempo que supone el paralelismo de hilos durante la ejecución del programa.
+En este documento se compara la eficiencia en tiempo que supone ejecutar Indexing y 
+Query de forma concurrente respecto de forma secuencial. 
+También se muestra la diferencia en tiempo que 
+supone la ejecución del programa con un número distinto de hilo.
 \\\\
-Los datos que se utilizaran para hacer el estudio saldrán de ejecutar de forma secuencial y concurrente los mismos ejemplos, calculando así el tiempo en que tarda en realizarse cada una de las ejecuciones. Este tiempo será el que luego se usará para comparar y sacar conclusiones.\\
-De mismo modo se ejecutará varias veces el programa con distinto número de hilos de ejecución y se procederá a la comparación de los resultados.
+Los datos que se han utilizado para realizar el estudio salen de la ejecución 
+de forma secuencial y concurrente de múltiples ejemplos, calculando así 
+el tiempo que tarda en realizarse cada una de las tareas.
+ Este tiempo será el que se usará para sacar conclusiones.\\
+Del mismo modo, se ejecutará varias veces el programa con distinto número
+ de hilos, todos estos datos quedan recogidos en las gráficas.
 
-
-\section{Concurrente vs Sequencial}
+\section{Concurrente vs Secuencial}
 
 \begin{figure}[hbt!]
   \includegraphics[width=\linewidth]{Indexing.png}
@@ -92,28 +98,64 @@ El objetivo de la práctica ha sido implementar la versión concurrente de
 Query y Indexing, así como estudiar su comportamiento y tiempos de ejecución.
 \\\\ 
 En las gráficas se pueden discernir los tiempos de ejecución
-de cada uno de los ejemplos en su versión secuencial y concurrente, sin embargo, cabe destacar algunas peculiaridades sobre los resultados obtenidos.\\
+de cada uno de los ejemplos en su versión secuencial y concurrente,
+ sin embargo, cabe destacar algunas peculiaridades sobre los resultados obtenidos.\\
 \\
-El resultado más destacable es que en algunos casos la aplicación concurrente nos da un tiempo superior a la implementación secuencial, y esto se debe por lo siguiente:
-Nuestra implementación tanto en Query como en Indexing se basa en una estrategia Master/Worker que consiste en dividir la construcción del HashMap de Inverted Index en diferentes hilos, haciendo que cada hilo construya su propio HashMap. Posteriormente unimos los HashMaps de cada uno de los hilos para generar el definitivo. Esta última operación genera un cuello de botella haciéndola bastante costosa en tiempo, cosa que explica porque a veces la aplicación concurrente es menos eficiente que la secuencial.
+El resultado más chocante es que en algunos casos la ejecución 
+concurrente da un tiempo superior a la implementación secuencial,
+esto se debe lo siguiente:
+La implementación tanto en Query como en Indexing se basa en una
+estrategia Master/Worker que consiste en dividir la construcción del
+HashMap de Inverted Index y repartirlo en diferentes hilos, haciendo que cada
+hilo construya su propio HashMap parcial. Posteriormente se unen los HashMaps
+de cada uno de los hilos para generar el acumulado. Esta última
+ operación (putAll) genera un cuello de botella que se suma al de I/O haciéndola bastante costosa
+en tiempo, motivo por el que se explica que a veces la aplicación concurrente
+sea menos eficiente que la secuencial. Estamos convencidos que hay implementaciones
+que pueden rodear o prescindir de putAll, en ese caso la implementación concurrente
+no solo no sería más lenta que la secuencial, sinó que sería más rápida. Una posible 
+solucion sería sustituir HashMultiMap por algun HashMap thread safe e ir 
+acumulando las claves sobre el mismo objeto.
 
-\section{Diferencias entre multiples hilos}
+\section{Diferencias entre número de hilos}
 \begin{figure}[hbt!]
   \includegraphics[width=\linewidth]{multithreading.png}
   \caption{Ejecucion con múltiples hilos}
   \label{fig:multhilos}
 \end{figure}
 
-Como se puede ver en la Figura \ref{fig:multhilos}, en el caso tanto de Query como de Indexing conforme mas hilos ejecutándose de forma paralela, más coste en el tiempo.\\
-Esto es debido a lo ya mencionado en el apartado anterior, a más hilos más veces se tiene que realizar la operación putAll alargando más el cuello de botella.\\
+Como se puede ver en la Figura \ref{fig:multhilos}, en el caso tanto de Query
+ como de Indexing conforme mas hilos ejecutándose de forma paralela, más coste
+  en el tiempo.\\
+Esto es debido a lo ya mencionado en el apartado anterior, a más hilos más veces
+se tiene que realizar la operación putAll, alargando más el cuello de botella. Se 
+le tiene que añadir, también, el coste de creación y mantenimiento de más hilos.\\
 
 \section{Diseño de la Solución}
 La solución presentada en esta práctica consiste en lo siguiente.
 \subsection{Indexing}
-Se reciben por parámetro el número de hilos con los que se desea ejecutar la aplicación. Con este se realiza un balanceo de carga asignando a cada hilo un número determinado de caracteres a procesar del fichero. Una vez asignado a cada hilo la carga de trabajo a realizar, estos empiezan a procesar carácter a carácter las claves i a construir su propio HashMap. Una vez realizado el join de todos los hilos, se juntan los HashMaps parciales en uno global i se continua con la ejecución del programa.
+Se recibe por parámetro el número de hilos con los que se desea ejecutar la
+aplicación. Se realiza un balanceo de carga asignando a cada hilo un
+número determinado de caracteres a procesar del fichero. Una vez asignado a cada
+hilo la carga de trabajo a realizar, estos empiezan a procesar carácter a carácter
+las claves y a construir sus HashMap parciales. Una vez realizado el join de todos
+los hilos, se juntan los HashMaps parciales en uno y este se guarda o se imprime según
+los argumentos especificados.
 %TODO: Si vols, explicar lo de la mierda de Save Index així una mica per demunt i lo del cuello de botella de remove
 \subsection{Query}
-Utiliza la misma estructura que Indexing, pero esta vez el balanceo de carga se realiza respecto a los ficheros que deben leer cada uno de los hilos. Entonces cada thread leerà un número de fitxeros y creará su propio hashmap así continuando con el mismo proceso que Indexing.
+Utiliza la misma estructura que Indexing, pero esta vez el balanceo de carga se
+realiza respecto a los ficheros que deben leer cada uno de los hilos. Cada thread
+leerá un número equitativo de ficheros y creará su propio hashmap así continuando
+con la misma arquitectura que la concurrencia en Indexing.
 
+\section{Apuntes finales}
+La parte donde se guardan las claves de forma concurrente está comentada debido
+a unos problemas, no obstante nos gustaría acentuar algunas curiosidades.
+\\\\
+De forma muy parecida a putAll, la mayoría de tiempo de esta función la acarriaba una 
+llamada a un método, en este caso era remove() de ArrayUtils. Este método lo
+utilizábamos para borrar las llaves leídas y preparar el set de llaves para
+el siguiente thread. Como curiosidad, en textos muy extensos este método ocupaba
+hasta un 97\% del tiempo de ejecución del guardado de los índices.
 \end{document}
 

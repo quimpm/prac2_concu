@@ -1,6 +1,7 @@
-\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{1}
-\contentsline {section}{\numberline {2}Concurrente vs Sequencial}{1}
-\contentsline {section}{\numberline {3}Diferencias entre multiples hilos}{2}
-\contentsline {section}{\numberline {4}Dise\IeC {\~n}o de la Soluci\IeC {\'o}n}{3}
-\contentsline {subsection}{\numberline {4.1}Indexing}{3}
-\contentsline {subsection}{\numberline {4.2}Query}{3}
+\contentsline {section}{\numberline {1}Introducción}{1}% 
+\contentsline {section}{\numberline {2}Concurrente vs Secuencial}{1}% 
+\contentsline {section}{\numberline {3}Diferencias entre número de hilos}{3}% 
+\contentsline {section}{\numberline {4}Diseño de la Solución}{3}% 
+\contentsline {subsection}{\numberline {4.1}Indexing}{3}% 
+\contentsline {subsection}{\numberline {4.2}Query}{4}% 
+\contentsline {section}{\numberline {5}Apuntes finales}{4}% 
