@@ -54,7 +54,6 @@ public class IndexingConc {
         }
         String text_file = args[1];
         numThreads = Integer.parseInt( args[0] );
-        numThreads = 1;//TODO ALERTA
         inverted_hashes = new InvertedIndexConc[numThreads];
         threads_storage = new Thread[numThreads];
         if (args.length == 2){ /* Text file and thread number */
