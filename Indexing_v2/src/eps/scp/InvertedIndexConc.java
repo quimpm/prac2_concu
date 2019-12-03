@@ -114,7 +114,7 @@ public class InvertedIndexConc
     // Método que añade una k-word y su desplazamiento en el HashMap.
     private void AddKey(String key, long offset){
         Hash.put(key, offset);
-        
+
     }
 
     // Método para imprimir por pantalla el índice invertido.
