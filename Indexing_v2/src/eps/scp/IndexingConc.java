@@ -33,7 +33,7 @@ public class IndexingConc {
     public static void main(String[] args)
     {
         /* Inicialización de variables */
-        AtomicBoolean debug = new AtomicBoolean(true);//TODO desatomitzar
+        AtomicBoolean debug = new AtomicBoolean(false);//TODO desatomitzar
         if(debug.get()) System.err.println("Inicialització");
         int[] threadCharge;
         InvertedIndexConc[] inverted_hashes;
@@ -122,7 +122,7 @@ public class IndexingConc {
         // Calculamos el número de ficheros a crear en función del núemro de claves que hay en el hash.
         // Número máximio de ficheros para salvar el índice invertido.
         if(debug.get()) System.err.println("Calcular numero de ficheros que toca");
-        int DIndexMaxNumberOfFiles = 1000;
+        int DIndexMaxNumberOfFiles = 5;
         if (keySet.size()> DIndexMaxNumberOfFiles)
             numberOfFiles = DIndexMaxNumberOfFiles;
         else{
