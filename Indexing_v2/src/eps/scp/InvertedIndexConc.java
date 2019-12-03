@@ -208,7 +208,7 @@ public class InvertedIndexConc
                 keysByFile =  remainingKeys / remainingFiles;
                 remainingKeys -= keysByFile;
                 // Recorremos las claves correspondientes a este fichero.
-                while (keyIterator.hasNext() && keysByFile>0) {
+                while (keyIterator.hasNext() && keysByFile > 0) {
                     key = (String) keyIterator.next();
                     SaveIndexKey(key,bw);  // Salvamos la clave al fichero.
                     //System.err.println(Thread.currentThread().getId() + " guarda " + key);

@@ -1,5 +1,6 @@
 package eps.scp;
 
+import com.google.common.collect.ArrayTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -69,7 +70,6 @@ public class IndexingConc {
 
         /* Balanceo de carga y creación de hilos */
         if(debug.get()) System.err.println("Balanceig carrega");
-        //threadCharge=balanceoCarga(args[0]); //TODO: Descomentat funciona
         threadCharge = balanceoCarga(text_file, key_size);
         if(debug.get()) System.err.println("Fi balanceig carrega");
 
@@ -144,25 +144,31 @@ public class IndexingConc {
         if(debug.get()) System.err.println("Inicio guardado");
         int[] balanceFicheros = balanceoFicheros(numberOfFiles);
         String[] setString;
-        ArrayList<String> arrayList;
         int acum = 0;
+        String[] keyList = keySet.toArray(new String[keySet.size()]);
+        remainingFiles = numberOfFiles;
+        long remainingKeys = keyList.length, keysByFile=0;
+
         Set<String> acumSet = ImmutableSet.copyOf(keySet);
         if (args.length > 3){
             if(debug.get()) System.err.println("Guardar resultats");
             for(int i = 0; i < numThreads; i++) {
+                keysByFile =  remainingKeys / remainingFiles;
+                remainingKeys -= keysByFile * balanceFicheros[i];
+
                 if(debug.get()) System.err.println("Copiar substring");
                 Set<String> keySubset = ImmutableSet.copyOf(Iterables.limit(acumSet, balanceFicheros[i]));
                 setString = acumSet.toArray(new String[acumSet.size()]);
                 if(debug.get()) System.err.println("Borrar llaves");
-                for(int j = 0; j < balanceFicheros[i]; j++){
+                for(int j = 0; j < balanceFicheros[i]*keysByFile; j++){
                    setString = ArrayUtils.remove(setString, 0);
                     //System.err.println(arr);
                     //arr.remove(0);
                 }
                 if(debug.get()) System.err.println("Creación de threads");
                 acumSet = Set.of(setString);
-                //System.err.println("Thread " + i + " guarda el subset " + keySubset + "des de "
-                 //      + acum + " fins a " + (acum+balanceFicheros[i]-1));
+//                System.err.println("Thread " + i + " guarda el subset " + keySubset + "des de "
+//                       + acum + " fins a " + (acum+balanceFicheros[i]-1));
                new Thread(new partsSaveIndex(args[3], inverted_hashes[0], acum, acum+balanceFicheros[i]-1, keySubset)).start();
                acum += balanceFicheros[i];
            }
